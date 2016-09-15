@@ -3,6 +3,7 @@ package famaf.unc.edu.ar.activitiesassignment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import java.util.List;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity  {
+    public final static String EMAIL_TEXT = "com.example.javier.ActivitiesAssigment_Android.EMAIL";
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -65,6 +67,16 @@ public class LoginActivity extends AppCompatActivity  {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    /** Sobreescribo el metodo para cortar*/
+    public void finish() {
+        Intent intentToNewsActivity = new Intent();
+        String text_email = mEmailView.getText().toString();
+        intentToNewsActivity.putExtra(EMAIL_TEXT,text_email);
+        setResult(RESULT_OK, intentToNewsActivity);
+        super.finish();
     }
 
     /**
