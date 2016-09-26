@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lector de Reddit</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Contraseña (opcional)</string>
+    <string name="action_sign_in">Ingresa-Registrate</string>
+    <string name="action_sign_in_short">Registrarse</string>
+    <string name="action_sign_out">Salir</string>
+    <string name="error_invalid_email">Email invalido</string>
+    <string name="error_invalid_password">Contraseña muy corta</string>
+    <string name="error_incorrect_password">Contraseña incorrecta</string>
+    <string name="error_field_required">Este campo es requerido</string>
+    <string name="permission_rationale">"Se necesitan permisos de contacto para proporcionar email."
+    </string>
+
+    <string name="title_activity_news">"Lector de Reddit"
+    </string>
+
+
+</resources>
