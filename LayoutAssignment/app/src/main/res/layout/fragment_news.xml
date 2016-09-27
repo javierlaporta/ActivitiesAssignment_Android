@@ -42,12 +42,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageReddit"
-        android:src="@mipmap/reddit_icon"
-        android:layout_below="@+id/headReddit"
+        android:src="@mipmap/ic_reddit_square"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/headReddit"
-        android:layout_alignTop="@+id/centerReddit"
-        android:layout_marginRight="22dp"
-        android:layout_marginEnd="22dp"/>
+        android:layout_toStartOf="@+id/headReddit"
+        android:layout_above="@+id/bubbleReddit" />
 
     <TextView
         android:layout_width="wrap_content"
