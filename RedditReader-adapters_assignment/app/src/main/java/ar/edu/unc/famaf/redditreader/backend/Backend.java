@@ -1,5 +1,6 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.model.PostModel;
@@ -51,8 +52,15 @@ public class Backend {
         post5.setComment(234);
         post5.setImageResourceId(5);
 
-        // OJO ACA NO VA RETURN NULLLLLLLLLLLLLLLLLLLLLLLLLLLl
-        return null;
+        //manera poco elegante
+        List<PostModel> postLst = new ArrayList<PostModel>();
+        postLst.add(post1);
+        postLst.add(post2);
+        postLst.add(post3);
+        postLst.add(post4);
+        postLst.add(post5);
+
+        return postLst;
     }
 }
 
