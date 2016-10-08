@@ -40,7 +40,6 @@
         android:layout_below="@+id/headReddit"
         android:layout_alignTop="@+id/centerReddit"
         android:scaleType="centerInside"
-        android:layout_marginLeft="22dp"
         android:layout_marginTop="20dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
@@ -52,15 +51,25 @@
         android:src="@drawable/ic_bubble"
         android:layout_toRightOf="@+id/imageReddit"
         android:layout_below="@+id/centerReddit" />
-    <!--<TextView
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/comentReddit"
-        android:text="2112 comentarios"
+        android:id="@+id/numCommentReddit"
         android:layout_toRightOf="@+id/bubbleReddit"
         android:layout_below="@+id/centerReddit"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="3dp"
-        android:textSize="16sp" /> -->
+        android:textSize="16sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comentReddit"
+        android:text="comentarios"
+        android:layout_toRightOf="@+id/numCommentReddit"
+        android:layout_below="@+id/centerReddit"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="3dp"
+        android:textSize="16sp" />
 
 </RelativeLayout>
