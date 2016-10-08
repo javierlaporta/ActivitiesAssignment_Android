@@ -14,19 +14,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageReddit"
         android:layout_below="@+id/headReddit"/>
+    <!--OJO DESPUES PONER ESTO -->
+    <!-- android:layout_above="@+id/bubbleReddit" /> -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/headReddit"
         android:layout_toRightOf="@+id/imageReddit"
+        android:layout_toEndOf="@+id/imageReddit"
         android:textSize="15sp"/>
 
-    <!--OJO DESPUES PONER ESTO -->
-    <!-- android:layout_above="@+id/bubbleReddit" /> -->
-
-
-
-    <!--<TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/centerReddit"
@@ -35,34 +33,34 @@
         android:textSize="18sp"/>
 
     <ImageView
-       android:layout_width="20dp"
-       android:layout_height="20dp"
-       android:id="@+id/playReddit"
-       android:src="@drawable/ic_play"
-       android:layout_below="@+id/headReddit"
-       android:layout_toRightOf="@+id/centerReddit"
-       android:layout_alignBottom="@+id/imageReddit"
-       android:layout_alignTop="@+id/centerReddit"
-       android:scaleType="centerInside"
-       android:layout_marginLeft="22dp"
-       android:layout_marginTop="20dp"/>
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/playReddit"
+        android:src="@drawable/ic_play"
+        android:layout_below="@+id/headReddit"
+        android:layout_alignTop="@+id/centerReddit"
+        android:scaleType="centerInside"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
-   <ImageView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:id="@+id/bubbleReddit"
-       android:src="@drawable/ic_bubble"
-       android:layout_toRightOf="@+id/imageReddit"
-       android:layout_below="@+id/centerReddit" />
-   <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:id="@+id/comentReddit"
-       android:text="2112 comentarios"
-       android:layout_toRightOf="@+id/bubbleReddit"
-       android:layout_below="@+id/centerReddit"
-       android:layout_marginTop="5dp"
-       android:layout_marginLeft="3dp"
-       android:textSize="16sp" /> -->
+     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bubbleReddit"
+        android:src="@drawable/ic_bubble"
+        android:layout_toRightOf="@+id/imageReddit"
+        android:layout_below="@+id/centerReddit" />
+    <!--<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comentReddit"
+        android:text="2112 comentarios"
+        android:layout_toRightOf="@+id/bubbleReddit"
+        android:layout_below="@+id/centerReddit"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="3dp"
+        android:textSize="16sp" /> -->
 
 </RelativeLayout>

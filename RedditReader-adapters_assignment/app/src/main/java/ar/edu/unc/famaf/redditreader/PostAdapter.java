@@ -54,11 +54,11 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
         TextView authorText = (TextView) convertView.findViewById(R.id.headReddit);
         ImageView imageResourceId = (ImageView) convertView.findViewById(R.id.imageReddit);
-        //TextView titleText = (TextView) convertView.findViewById(R.id.centerReddit);
+        TextView titleText = (TextView) convertView.findViewById(R.id.centerReddit);
 
         authorText.setText(pm.getAuthor());
         imageResourceId.setImageResource(pm.getImageResourceId());
-        //titleText.setText(pm.getTitle());
+        titleText.setText(pm.getTitle());
 
         return convertView;
     }
