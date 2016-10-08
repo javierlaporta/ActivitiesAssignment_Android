@@ -30,28 +30,28 @@ public class Backend {
         post2.setAuthor("/r/DevAndriod");
         post2.setDate("Hace 12 hs");
         post2.setComment(352);
-        post2.setImageResourceId(R.drawable.post1);
+        post2.setImageResourceId(R.drawable.developer);
 
         PostModel post3 = new PostModel();
         post3.setTitle("Crash when editing a comment that is still in progress");
         post3.setAuthor("/r/JoshuaTheFox");
         post3.setDate("Hace 15 hs");
         post3.setComment(152);
-        post3.setImageResourceId(R.drawable.post1);
+        post3.setImageResourceId(R.drawable.fox);
 
         PostModel post4 = new PostModel();
         post4.setTitle("iOS 10, Outlook & Messenger app tones changed");
         post4.setAuthor("/r/ios");
         post4.setDate("Hace 11 hs");
         post4.setComment(134);
-        post4.setImageResourceId(R.drawable.post1);
+        post4.setImageResourceId(R.drawable.ios);
 
         PostModel post5 = new PostModel();
         post5.setTitle("The best games to play on your GBA emulator!");
         post5.setAuthor("/r/GBA4iOS");
         post5.setDate("Hace 10 hs");
         post5.setComment(234);
-        post5.setImageResourceId(R.drawable.ic_play);
+        post5.setImageResourceId(R.drawable.ios_reddit);
 
         //manera poco elegante
         List<PostModel> postLst = new ArrayList<PostModel>();
