@@ -20,6 +20,11 @@ public class NewsActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //me parece que aca deberia hacer una instancia de backend con getinstance
+        // y despues una instancia del adapter y asignarla a la lista qe devuelve el backend
+
         return inflater.inflate(R.layout.fragment_news, container, false);
+
     }
+
 }
