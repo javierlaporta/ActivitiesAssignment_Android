@@ -17,10 +17,9 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
  * Created by javier on 07/10/16.
  */
 public class PostAdapter extends ArrayAdapter<PostModel> {
-
     private List<PostModel> postLst = null;
 
-    public PostAdapter(Context context, int textViewResourceId, List<PostModel> colorLst) {
+    public PostAdapter(Context context, int textViewResourceId, List<PostModel> postLst) {
         super(context, textViewResourceId);
         this.postLst = postLst;
     }
@@ -49,7 +48,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
         //Aca tengo que tratar de hacer la vista como se veria en el xml
         //ademas necesito implementar el xml post_row con lo del lab 2 para
-        //poder tener los atributos por ejemplo ColorTV etc
+        //poder tener los atributos por ejemplo headreddit etc
 
         PostModel pm = postLst.get(position);
 

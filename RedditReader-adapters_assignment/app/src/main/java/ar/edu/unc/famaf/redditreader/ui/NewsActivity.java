@@ -6,8 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
-
 import ar.edu.unc.famaf.redditreader.R;
 
 
@@ -32,11 +30,11 @@ public class NewsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_sign_in) {
-            TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
-            textView.setText("User XXXX logged in");
-            return true;
-        }
+        //if (id == R.id.action_sign_in) {
+          //  TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
+           // textView.setText("User XXXX logged in");
+           // return true;
+        //}
 
         return super.onOptionsItemSelected(item);
     }
