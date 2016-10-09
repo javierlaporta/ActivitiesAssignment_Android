@@ -60,8 +60,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            //LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //convertView = vi.inflate(R.layout.complex_color_row, null);
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.porst_row,parent,false);
             viewHolder = new ViewHolder((ImageView) convertView.findViewById(R.id.imageReddit),
                     (TextView) convertView.findViewById(R.id.headReddit),
@@ -74,9 +72,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        //Aca tengo que tratar de hacer la vista como se veria en el xml
-        //ademas necesito implementar el xml post_row con lo del lab 2 para
-        //poder tener los atributos por ejemplo headreddit etc
         PostModel pm = postLst.get(position);
         viewHolder.authorTv.setText(pm.getAuthor());
         viewHolder.imageResourceIdIv.setImageResource(pm.getImageResourceId());

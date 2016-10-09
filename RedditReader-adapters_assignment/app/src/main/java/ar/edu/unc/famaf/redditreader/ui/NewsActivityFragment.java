@@ -26,8 +26,6 @@ public class NewsActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //me parece que aca deberia hacer una instancia de backend con getinstance
-        // y despues una instancia del adapter y asignarla a la lista qe devuelve el backend
 
         Backend backend = Backend.getInstance();
         List<PostModel> postLst = backend.getTopPosts();
