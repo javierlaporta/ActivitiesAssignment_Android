@@ -27,10 +27,17 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
     public class ViewHolder {
         public final TextView authorTv;
         public final ImageView imageResourceIdIv;
+        public final TextView titleTv;
+        public final TextView dateTv;
+        public final TextView commentTv;
 
-        public ViewHolder(ImageView imageResourceIdIv, TextView authorTv){
+        public ViewHolder(ImageView imageResourceIdIv, TextView authorTv, TextView titleTv,
+                          TextView commentTv, TextView dateTv){
             this.authorTv = authorTv;
             this.imageResourceIdIv = imageResourceIdIv;
+            this.titleTv = titleTv;
+            this.commentTv = commentTv;
+            this.dateTv = dateTv;
         }
     }
 
@@ -57,7 +64,10 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             //convertView = vi.inflate(R.layout.complex_color_row, null);
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.porst_row,parent,false);
             viewHolder = new ViewHolder((ImageView) convertView.findViewById(R.id.imageReddit),
-                    (TextView) convertView.findViewById(R.id.headReddit));
+                    (TextView) convertView.findViewById(R.id.headReddit),
+                    (TextView) convertView.findViewById(R.id.centerReddit),
+                    (TextView)convertView.findViewById(R.id.numCommentReddit),
+                    (TextView) convertView.findViewById(R.id.dateReddit));
             convertView.setTag(viewHolder);
         }
         else{
@@ -70,6 +80,9 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         PostModel pm = postLst.get(position);
         viewHolder.authorTv.setText(pm.getAuthor());
         viewHolder.imageResourceIdIv.setImageResource(pm.getImageResourceId());
+        viewHolder.titleTv.setText(pm.getTitle());
+        viewHolder.commentTv.setText(String.valueOf(pm.getComment()));
+        viewHolder.dateTv.setText(pm.getDate());
         return convertView;
     }
 }
