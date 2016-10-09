@@ -24,6 +24,16 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         this.postLst = postLst;
     }
 
+    public class ViewHolder {
+        public final TextView authorTv;
+        public final ImageView imageResourceIdIv;
+
+        public ViewHolder(ImageView imageResourceIdIv, TextView authorTv){
+            this.authorTv = authorTv;
+            this.imageResourceIdIv = imageResourceIdIv;
+        }
+    }
+
     @Override
     public int getCount() {
         return postLst.size();
@@ -41,29 +51,25 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder = null;
         if (convertView == null) {
-            LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = vi.inflate(R.layout.porst_row, null);
+            //LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //convertView = vi.inflate(R.layout.complex_color_row, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.porst_row,parent,false);
+            viewHolder = new ViewHolder((ImageView) convertView.findViewById(R.id.imageReddit),
+                    (TextView) convertView.findViewById(R.id.headReddit));
+            convertView.setTag(viewHolder);
+        }
+        else{
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
         //Aca tengo que tratar de hacer la vista como se veria en el xml
         //ademas necesito implementar el xml post_row con lo del lab 2 para
         //poder tener los atributos por ejemplo headreddit etc
-
         PostModel pm = postLst.get(position);
-
-        TextView authorText = (TextView) convertView.findViewById(R.id.headReddit);
-        ImageView imageResourceId = (ImageView) convertView.findViewById(R.id.imageReddit);
-        TextView titleText = (TextView) convertView.findViewById(R.id.centerReddit);
-        TextView commentText = (TextView) convertView.findViewById(R.id.numCommentReddit);
-        TextView dateText = (TextView) convertView.findViewById(R.id.dateReddit);
-
-        authorText.setText(pm.getAuthor());
-        imageResourceId.setImageResource(pm.getImageResourceId());
-        titleText.setText(pm.getTitle());
-        commentText.setText(String.valueOf(pm.getComment()));
-        dateText.setText(pm.getDate());
-
+        viewHolder.authorTv.setText(pm.getAuthor());
+        viewHolder.imageResourceIdIv.setImageResource(pm.getImageResourceId());
         return convertView;
     }
 }
