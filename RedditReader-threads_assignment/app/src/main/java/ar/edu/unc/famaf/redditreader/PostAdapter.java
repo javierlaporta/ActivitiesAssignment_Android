@@ -5,16 +5,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
@@ -32,15 +35,17 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         public final TextView titleTv;
         public final TextView dateTv;
         public final TextView commentTv;
+        public final ProgressBar progressBar;
 
         public ViewHolder(ImageView imageResourceUrlIv, TextView authorTv, TextView titleTv,
-                          TextView commentTv, TextView dateTv){//no deberia ser private?
+                          TextView commentTv, TextView dateTv, ProgressBar progressBar){//no deberia ser private?
             this.authorTv = authorTv;
             //this.imageResourceIdIv = imageResourceIdIv;
             this.imageResourceUrlIv = imageResourceUrlIv;
             this.titleTv = titleTv;
             this.commentTv = commentTv;
             this.dateTv = dateTv;
+            this.progressBar = progressBar;
         }
     }
 
@@ -65,6 +70,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             System.out.print("onPostExcecute");
+
         }
     }
 
@@ -90,14 +96,17 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        final ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.porst_row,parent,false);
-            viewHolder = new ViewHolder((ImageView) convertView.findViewById(R.id.imageReddit),
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.porst_row, parent, false);
+        }
+        if(convertView.getTag() == null){
+        viewHolder = new ViewHolder((ImageView) convertView.findViewById(R.id.imageReddit),
                     (TextView) convertView.findViewById(R.id.headReddit),
                     (TextView) convertView.findViewById(R.id.centerReddit),
                     (TextView)convertView.findViewById(R.id.numCommentReddit),
-                    (TextView) convertView.findViewById(R.id.dateReddit));
+                    (TextView) convertView.findViewById(R.id.dateReddit),
+                    (ProgressBar)convertView.findViewById(R.id.progressBar));
             convertView.setTag(viewHolder);
         }
         else{
@@ -105,19 +114,35 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         }
 
         PostModel pm = postLst.get(position);
-        DownloadImageAsyncTask dwd = new DownloadImageAsyncTask();
-        dwd.execute();
 
+        URL myUrl = null;
+        try {
+            myUrl = new URL(pm.getimageResourceUrl());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        URL[] urlArray = new URL[1];
+        urlArray[0] = myUrl;
+
+        new DownloadImageAsyncTask() {
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                super.onPostExecute(bitmap);
+                viewHolder.progressBar.setVisibility(ProgressBar.GONE);
+                if(bitmap != null){
+                    viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
+                }
+                else{
+                    viewHolder.imageResourceUrlIv.setImageResource(R.drawable.fox);
+                }
+            }
+        }.execute(urlArray);
         viewHolder.authorTv.setText(pm.getAuthor());
-
-        //Supongo que ahora en vez de tener esto:
-        //viewHolder.imageResourceIdIv.setImageResource(pm.getImageResourceId());
-        //voy a tener que hacer la asyncTask que me descargue la imagen desde el
-        //url que esta seteado en backend. en el string imageResourceUrl
-
         viewHolder.titleTv.setText(pm.getTitle());
         viewHolder.commentTv.setText(String.valueOf(pm.getComment()));
         viewHolder.dateTv.setText(pm.getDate());
+
         return convertView;
     }
 }

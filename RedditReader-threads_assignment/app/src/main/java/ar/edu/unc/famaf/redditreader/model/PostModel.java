@@ -9,20 +9,13 @@ public class PostModel {
     private String author;
     private String  date;
     private int comment;
-    //private int imageResourceId;
-    private URL imageResourceUrl;
+    private String imageResourceUrl;
 
     public void setimageResourceUrl(String imageResourceUrl){
-        URL aux = null;
-        try {
-            aux = new URL(imageResourceUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        this.imageResourceUrl = aux;
+        this.imageResourceUrl = imageResourceUrl;
     }
 
-    public URL getimageResourceUrl(){
+    public String getimageResourceUrl(){
         return imageResourceUrl;
     }
 

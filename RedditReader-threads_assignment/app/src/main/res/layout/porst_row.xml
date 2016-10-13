@@ -9,11 +9,19 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
 
-    <ImageView
+    <ProgressBar android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/headReddit"
+        android:indeterminate="false"
+        />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/imageReddit"
-        android:layout_below="@+id/headReddit"/>
+        android:layout_below="@+id/headReddit"
+        android:scaleType="centerInside"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,6 +47,7 @@
         android:id="@+id/centerReddit"
         android:layout_below="@+id/headReddit"
         android:layout_toRightOf="@+id/imageReddit"
+        android:layout_toLeftOf="@+id/playReddit"
         android:textSize="18sp"/>
 
     <ImageView
@@ -51,7 +60,8 @@
         android:scaleType="centerInside"
         android:layout_marginTop="20dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        />
 
      <ImageView
         android:layout_width="wrap_content"

@@ -33,10 +33,12 @@ public class Backend {
         String[] authorArray = {"/r/Android","/r/DevAndriod","/r/JoshuaTheFox","/r/ios","/r/GBA4iOS"};
         String[] dateArray = {"Hace 14 hs","Hace 12 hs","Hace 15 hs","Hace 11 hs","Hace 10 hs"};
         Integer[] commentArray = {294,352,152,134,234};
-        String url = "https://www.google.com.ar/search?q=google+pixel&espv=2&biw=1242&bih=593&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjo5MH409XPAhVLi5AKHYOMAZUQ_AUIBigB#q=google&tbs=isz:i&tbm=isch&imgrc=CAN2a9julVsy3M%3A";
+        String [] urlArray = {"https://www.google.es/images/branding/googleg/1x/googleg_standard_color_128dp.png",
+                "http://juegosparacelular.net/wp-content/uploads/2015/12/Juegos-para-IOS.png",
+        "http://www.iconsdb.com/icons/preview/navy-blue/samsung-xxl.png",
+        "http://www.iconsdb.com/icons/preview/navy-blue/samsung-xxl.png",
+        "https://www.google.es/images/branding/googleg/1x/googleg_standard_color_128dp.png"};
 
-        //Integer[] imageArray = {R.drawable.post1,R.drawable.developer,R.drawable.fox,
-        // R.drawable.ios,R.drawable.ios_reddit};
 
         List<PostModel> postLst = new ArrayList<PostModel>();
         for (int i=0; i < 5 ; i++){
@@ -44,7 +46,7 @@ public class Backend {
             postArray[i].setAuthor(authorArray[i]);
             postArray[i].setDate(dateArray[i]);
             postArray[i].setComment(commentArray[i]);
-            postArray[i].setimageResourceUrl(url);
+            postArray[i].setimageResourceUrl(urlArray[i]);
             //postArray[i].setimageResourceId(imageArray[i]);
             postLst.add(postArray[i]);
         }
