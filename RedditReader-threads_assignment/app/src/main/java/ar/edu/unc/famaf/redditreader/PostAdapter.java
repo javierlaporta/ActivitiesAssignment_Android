@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,10 +55,16 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             URL url =params[0];
             Bitmap bitmap = null;
             HttpURLConnection connection = null;
-
+            //DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+            //BitmapFactory.Options options = new BitmapFactory.Options();
+            //options.inDensity = DisplayMetrics.DENSITY_280;
+            //options.inScreenDensity = metrics.densityDpi;
+            //options.inTargetDensity = metrics.densityDpi;
+            //preguntaaaaaaaaaaaaaar!!!
             try{
                 connection = (HttpURLConnection)url.openConnection();
                 InputStream is = connection.getInputStream();
+                //bitmap =BitmapFactory.decodeStream(is,null,options);
                 bitmap =BitmapFactory.decodeStream(is,null,null);
             } catch (IOException e) {
                 e.printStackTrace();
