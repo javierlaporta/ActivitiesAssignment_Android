@@ -28,9 +28,8 @@ import android.os.AsyncTask;
 public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> postLst = null;
 
-    public class ViewHolder {//no deberia ser private?
+    public class ViewHolder {
         public final TextView authorTv;
-        //public final ImageView imageResourceIdIv;
         public final ImageView imageResourceUrlIv;
         public final TextView titleTv;
         public final TextView dateTv;
@@ -38,9 +37,8 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         public final ProgressBar progressBar;
 
         public ViewHolder(ImageView imageResourceUrlIv, TextView authorTv, TextView titleTv,
-                          TextView commentTv, TextView dateTv, ProgressBar progressBar){//no deberia ser private?
+                          TextView commentTv, TextView dateTv, ProgressBar progressBar){
             this.authorTv = authorTv;
-            //this.imageResourceIdIv = imageResourceIdIv;
             this.imageResourceUrlIv = imageResourceUrlIv;
             this.titleTv = titleTv;
             this.commentTv = commentTv;
@@ -70,10 +68,8 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             System.out.print("onPostExcecute");
-
         }
     }
-
 
     public PostAdapter(Context context, int textViewResourceId, List<PostModel> postLst) {
         super(context, textViewResourceId);
@@ -134,7 +130,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                     viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
                 }
                 else{
-                    viewHolder.imageResourceUrlIv.setImageResource(R.drawable.fox);
+                    viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
                 }
             }
         }.execute(urlArray);

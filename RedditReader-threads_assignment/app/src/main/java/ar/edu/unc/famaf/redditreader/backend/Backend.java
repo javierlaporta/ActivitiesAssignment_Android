@@ -34,10 +34,10 @@ public class Backend {
         String[] dateArray = {"Hace 14 hs","Hace 12 hs","Hace 15 hs","Hace 11 hs","Hace 10 hs"};
         Integer[] commentArray = {294,352,152,134,234};
         String [] urlArray = {"https://www.google.es/images/branding/googleg/1x/googleg_standard_color_128dp.png",
-                "http://juegosparacelular.net/wp-content/uploads/2015/12/Juegos-para-IOS.png",
-        "http://www.iconsdb.com/icons/preview/navy-blue/samsung-xxl.png",
-        "http://www.iconsdb.com/icons/preview/navy-blue/samsung-xxl.png",
-        "https://www.google.es/images/branding/googleg/1x/googleg_standard_color_128dp.png"};
+        "https://pbs.twimg.com/profile_images/616076655547682816/6gMRtQyY.jpg",
+        "https://pixabay.com/static/uploads/photo/2014/04/02/16/27/fox-307313__180.png",
+        "http://juegosparacelular.net/wp-content/uploads/2015/12/Juegos-para-IOS.png",
+        "http://vignette4.wikia.nocookie.net/es.pokemon/images/1/15/Game_Boy_Advance.png"};
 
 
         List<PostModel> postLst = new ArrayList<PostModel>();
@@ -47,7 +47,6 @@ public class Backend {
             postArray[i].setDate(dateArray[i]);
             postArray[i].setComment(commentArray[i]);
             postArray[i].setimageResourceUrl(urlArray[i]);
-            //postArray[i].setimageResourceId(imageArray[i]);
             postLst.add(postArray[i]);
         }
         return postLst;

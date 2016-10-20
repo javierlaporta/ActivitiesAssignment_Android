@@ -35,10 +35,6 @@ public class PostModel {
         this.comment = comment;
     }
 
-    //public void setImageResourceId(int imageResourceId) {
-    //    this.imageResourceId = imageResourceId;
-    //}
-
     public String getTitle() {
         return title;
     }
@@ -54,9 +50,5 @@ public class PostModel {
     public int getComment() {
         return comment;
     }
-
-    //public int getImageResourceId() {
-    //    return imageResourceId;
-    //}
 
 }
