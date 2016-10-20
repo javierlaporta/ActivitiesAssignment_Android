@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+
+    <ProgressBar android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headReddit"
+        android:indeterminate="false"
+        />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/imageReddit"
+        android:layout_below="@+id/headReddit"
+        android:layout_marginRight="10dp"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/headReddit"
+        android:layout_toRightOf="@+id/imageReddit"
+        android:layout_toEndOf="@+id/imageReddit"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateReddit"
+        android:layout_toLeftOf="@+id/playReddit"
+        android:textSize="15sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/centerReddit"
+        android:layout_below="@+id/headReddit"
+        android:layout_toRightOf="@+id/imageReddit"
+        android:layout_toLeftOf="@+id/playReddit"
+        android:textSize="18sp"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/playReddit"
+        android:src="@drawable/ic_play"
+        android:layout_below="@+id/headReddit"
+        android:layout_alignTop="@+id/centerReddit"
+        android:scaleType="centerInside"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        />
+
+     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bubbleReddit"
+        android:src="@drawable/ic_bubble"
+        android:layout_toRightOf="@+id/imageReddit"
+        android:layout_below="@+id/centerReddit" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numCommentReddit"
+        android:layout_toRightOf="@+id/bubbleReddit"
+        android:layout_below="@+id/centerReddit"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="3dp"
+        android:textSize="16sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comentReddit"
+        android:text="comentarios"
+        android:layout_toRightOf="@+id/numCommentReddit"
+        android:layout_below="@+id/centerReddit"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="3dp"
+        android:textSize="16sp" />
+
+</RelativeLayout>
