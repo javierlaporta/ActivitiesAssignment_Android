@@ -1,9 +1,6 @@
 package ar.edu.unc.famaf.redditreader.model;
 
 import android.support.annotation.Nullable;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +9,7 @@ import java.util.List;
 public class Listing {
     private String mAfter;
     private String mBefore;
-    private List<String> mChildren;
+    //private List<String> mChildren;
 
     @Nullable
     public String getAfter() {
@@ -23,6 +20,21 @@ public class Listing {
         this.mAfter = after;
     }
 
-    //private ArrayList<String> mChilder;
-    //ojo creo q es mas facil usar arrayList pero el profe me dijo q es mas prolijo usar list
+    @Nullable
+    public String getBefore() {
+        return mBefore;
+    }
+
+    public void setBefore(String mBefore) {
+        this.mBefore = mBefore;
+    }
+
+   // @Nullable
+   // public List<String> getmChildren() {
+    //    return mChildren;
+   // }
+
+   // public void setChildren(List<String> mChildren) {
+   //     this.mChildren = mChildren;
+   // }
 }

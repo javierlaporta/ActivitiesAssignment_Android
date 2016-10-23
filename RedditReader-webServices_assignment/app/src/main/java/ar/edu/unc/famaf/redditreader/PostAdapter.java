@@ -21,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 import android.os.AsyncTask;
 /**
@@ -145,7 +146,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         viewHolder.titleTv.setText(pm.getTitle());
         viewHolder.commentTv.setText(String.valueOf(pm.getComment()));
         viewHolder.dateTv.setText(pm.getDate());
-
         return convertView;
     }
 }
