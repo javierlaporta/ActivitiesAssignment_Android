@@ -8,7 +8,7 @@ public class PostModel {
     private String  title;
     private String author;
     private String  date;
-    private int comment;
+    private String comment;
     private String imageResourceUrl;
 
     public void setimageResourceUrl(String imageResourceUrl){
@@ -31,7 +31,7 @@ public class PostModel {
         this.date = date;
     }
 
-    public void setComment(int comment) {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 
@@ -47,7 +47,7 @@ public class PostModel {
         return date;
     }
 
-    public int getComment() {
+    public String getComment() {
         return comment;
     }
 

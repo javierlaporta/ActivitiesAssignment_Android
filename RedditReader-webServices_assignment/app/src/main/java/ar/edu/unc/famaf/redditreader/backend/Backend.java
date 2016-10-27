@@ -32,7 +32,7 @@ public class Backend {
                 "The best games to play on your GBA emulator!"};
         String[] authorArray = {"/r/Android","/r/DevAndriod","/r/JoshuaTheFox","/r/ios","/r/GBA4iOS"};
         String[] dateArray = {"Hace 14 hs","Hace 12 hs","Hace 15 hs","Hace 11 hs","Hace 10 hs"};
-        Integer[] commentArray = {294,352,152,134,234};
+        String[] commentArray = {"294","352","152","134","234"};
         String [] urlArray = {"https://www.google.es/images/branding/googleg/1x/googleg_standard_color_128dp.png",
         "https://pbs.twimg.com/profile_images/616076655547682816/6gMRtQyY.jpg",
         "https://pixabay.com/static/uploads/photo/2014/04/02/16/27/fox-307313__180.png",

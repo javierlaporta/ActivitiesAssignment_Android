@@ -1,15 +1,18 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
 import android.util.JsonReader;
-import android.util.JsonToken;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import android.util.JsonToken;
 import java.util.ArrayList;
 import java.util.List;
-
 import ar.edu.unc.famaf.redditreader.model.Listing;
+import ar.edu.unc.famaf.redditreader.model.PostModel;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by javier on 20/10/16.
@@ -18,6 +21,7 @@ public class Parser {
 
     public Listing readJsonStream(InputStream in) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+
         try {
             return readDataObject(reader);
         } finally {
@@ -45,31 +49,98 @@ public class Parser {
     public Listing readData(JsonReader reader) throws IOException{
         String after = null;
         String before = null;
-        //List<String> children = null;
+        List<PostModel> children = new ArrayList<PostModel>();
         Listing listing2 = new Listing();
+
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("after")) {
+            JsonToken check = reader.peek();
+
+            if (name.equals("after") && check != JsonToken.NULL) {
                 after = reader.nextString();
-            }else if(name.equals("before")){
+            }else if(name.equals("before") && check != JsonToken.NULL){
                 before = reader.nextString();
-            }//else if(name.equals("children") && reader.peek() != JsonToken.NULL) {
-             //   children = readChildrenArray(reader);
-            //}
-            else {
+            }else if(name.equals("children") && check != JsonToken.NULL) {
+                reader.beginArray();
+                while (reader.hasNext()) {
+                    PostModel e = readChildrenArray(reader);
+                    children.add(e);
+                    //children.add(readChildrenArray(reader));
+                }
+                reader.endArray();
+            }else {
                 reader.skipValue();
             }
         }
         listing2.setAfter(after);
         listing2.setBefore(before);
-        //listing.setChildren(children);
+        listing2.setChildren(children);
         return listing2;
     }
-    //public List<String> readChildrenArray(JsonReader reader){
-    //    return new ArrayList<String>();
-    //}
 
+
+    public PostModel readChildrenArray(JsonReader reader) throws IOException{
+        PostModel nuevo2 = new PostModel();
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if(name.equals("data")) {
+                reader.beginObject();
+                //listModel = readT3(reader);
+                nuevo2 = readT3(reader);
+                reader.endObject();
+            }else{
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return  nuevo2;
+    }
+
+    public  PostModel readT3 (JsonReader reader) throws  IOException{
+        List<String>  listT3 = new ArrayList<String>();
+        PostModel postModelt3 = new PostModel();
+        String title = null;
+        String author = null;
+        String num_comments = null;
+        String thumbnail = null;
+        Long date = null;
+
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            JsonToken check = reader.peek();
+
+            if (name.equals("title") && check != JsonToken.NULL) {
+                title = reader.nextString();
+            }else if(name.equals("author") && check != JsonToken.NULL){
+                author = reader.nextString();
+            }else if (name.equals("num_comments")&& check != JsonToken.NULL){
+                num_comments = reader.nextString();
+            }else  if (name.equals("thumbnail") && check != JsonToken.NULL) {
+                thumbnail = reader.nextString();
+            }
+//            }else if (name.equals("created") && check != JsonToken.NULL){
+//                date = reader.nextLong();
+//                String created = String.format("%02d:%02d:%02d",
+//                        TimeUnit.MILLISECONDS.toHours(date),
+//                        TimeUnit.MILLISECONDS.toMinutes(date) -
+//                                TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(date)),
+//                        TimeUnit.MILLISECONDS.toSeconds(date) -
+//                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(date)));
+//
+//            }
+            else {
+                reader.skipValue();
+            }
+        }
+        postModelt3.setAuthor(author);
+        postModelt3.setComment(num_comments);
+        postModelt3.setTitle(title);
+        postModelt3.setimageResourceUrl(thumbnail);
+//        postModelt3.setDate("HACE" + date.toString() +"HS");
+        return  postModelt3;
+    }
 }
 
 

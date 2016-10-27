@@ -9,7 +9,7 @@ import java.util.List;
 public class Listing {
     private String mAfter;
     private String mBefore;
-    //private List<String> mChildren;
+    private List<PostModel> mChildren;
 
     @Nullable
     public String getAfter() {
@@ -29,12 +29,12 @@ public class Listing {
         this.mBefore = mBefore;
     }
 
-   // @Nullable
-   // public List<String> getmChildren() {
-    //    return mChildren;
-   // }
+    @Nullable
+    public List<PostModel> getChildren() {
+        return mChildren;
+    }
 
-   // public void setChildren(List<String> mChildren) {
-   //     this.mChildren = mChildren;
-   // }
+    public void setChildren(List<PostModel> mChildren) {
+        this.mChildren = mChildren;
+    }
 }
