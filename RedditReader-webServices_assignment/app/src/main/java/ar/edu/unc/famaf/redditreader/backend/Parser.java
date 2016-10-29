@@ -5,14 +5,13 @@ import android.util.JsonReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import android.util.JsonToken;
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unc.famaf.redditreader.model.Listing;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
-import java.util.concurrent.TimeUnit;
-
+import java.util.TimeZone;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by javier on 20/10/16.
@@ -49,7 +48,7 @@ public class Parser {
     public Listing readData(JsonReader reader) throws IOException{
         String after = null;
         String before = null;
-        List<PostModel> children = new ArrayList<PostModel>();
+        List<PostModel> children = new ArrayList<>();
         Listing listing2 = new Listing();
 
         reader.beginObject();
@@ -64,9 +63,7 @@ public class Parser {
             }else if(name.equals("children") && check != JsonToken.NULL) {
                 reader.beginArray();
                 while (reader.hasNext()) {
-                    PostModel e = readChildrenArray(reader);
-                    children.add(e);
-                    //children.add(readChildrenArray(reader));
+                    children.add(readChildrenArray(reader));
                 }
                 reader.endArray();
             }else {
@@ -81,31 +78,31 @@ public class Parser {
 
 
     public PostModel readChildrenArray(JsonReader reader) throws IOException{
-        PostModel nuevo2 = new PostModel();
+        PostModel post = new PostModel();
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
             if(name.equals("data")) {
                 reader.beginObject();
-                //listModel = readT3(reader);
-                nuevo2 = readT3(reader);
+                post = readT3(reader);
                 reader.endObject();
             }else{
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return  nuevo2;
+        return  post;
     }
 
     public  PostModel readT3 (JsonReader reader) throws  IOException{
-        List<String>  listT3 = new ArrayList<String>();
-        PostModel postModelt3 = new PostModel();
+        PostModel postModelT3 = new PostModel();
         String title = null;
         String author = null;
         String num_comments = null;
         String thumbnail = null;
-        Long date = null;
+        Long millis;
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        String created = null;
 
         while (reader.hasNext()) {
             String name = reader.nextName();
@@ -119,27 +116,26 @@ public class Parser {
                 num_comments = reader.nextString();
             }else  if (name.equals("thumbnail") && check != JsonToken.NULL) {
                 thumbnail = reader.nextString();
+            }else if (name.equals("created") && check != JsonToken.NULL){
+                millis = reader.nextLong();
+//                int hrs = (int) TimeUnit.MILLISECONDS.toHours(millis) % 24;
+//                int min = (int) TimeUnit.MILLISECONDS.toMinutes(millis) % 60;
+//                int sec = (int) TimeUnit.MILLISECONDS.toSeconds(millis) % 60;
+//                created = String.format("%02d:%02d:%02d", hrs, min, sec);
+                df.getTimeZone().getOffset(millis);
+                df.setTimeZone(TimeZone.getTimeZone("GMT"));
+                created = df.format(millis);
             }
-//            }else if (name.equals("created") && check != JsonToken.NULL){
-//                date = reader.nextLong();
-//                String created = String.format("%02d:%02d:%02d",
-//                        TimeUnit.MILLISECONDS.toHours(date),
-//                        TimeUnit.MILLISECONDS.toMinutes(date) -
-//                                TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(date)),
-//                        TimeUnit.MILLISECONDS.toSeconds(date) -
-//                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(date)));
-//
-//            }
             else {
                 reader.skipValue();
             }
         }
-        postModelt3.setAuthor(author);
-        postModelt3.setComment(num_comments);
-        postModelt3.setTitle(title);
-        postModelt3.setimageResourceUrl(thumbnail);
-//        postModelt3.setDate("HACE" + date.toString() +"HS");
-        return  postModelt3;
+        postModelT3.setAuthor(author);
+        postModelT3.setComment(num_comments);
+        postModelT3.setTitle(title);
+        postModelT3.setimageResourceUrl(thumbnail);
+        postModelT3.setDate(created);
+        return  postModelT3;
     }
 }
 
