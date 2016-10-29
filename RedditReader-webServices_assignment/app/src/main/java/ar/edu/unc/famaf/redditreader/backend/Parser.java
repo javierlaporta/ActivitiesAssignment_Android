@@ -118,10 +118,6 @@ public class Parser {
                 thumbnail = reader.nextString();
             }else if (name.equals("created") && check != JsonToken.NULL){
                 millis = reader.nextLong();
-//                int hrs = (int) TimeUnit.MILLISECONDS.toHours(millis) % 24;
-//                int min = (int) TimeUnit.MILLISECONDS.toMinutes(millis) % 60;
-//                int sec = (int) TimeUnit.MILLISECONDS.toSeconds(millis) % 60;
-//                created = String.format("%02d:%02d:%02d", hrs, min, sec);
                 df.getTimeZone().getOffset(millis);
                 df.setTimeZone(TimeZone.getTimeZone("GMT"));
                 created = df.format(millis);

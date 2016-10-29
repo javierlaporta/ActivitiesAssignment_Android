@@ -50,10 +50,11 @@ public class NewsActivityFragment extends Fragment {
     }
 
     public boolean isConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
 
-        if (netInfo != null) { // connected to the internet
+        if (netInfo != null) { // tengo conexion a internet
             if (netInfo.getType() == ConnectivityManager.TYPE_WIFI ||
                     netInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                 return true;

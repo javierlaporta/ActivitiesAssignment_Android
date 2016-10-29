@@ -40,17 +40,15 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         public final TextView dateTv;
         public final TextView commentTv;
         public final ProgressBar progressBar;
-        public final TextView afterTv;
 
         public ViewHolder(ImageView imageResourceUrlIv, TextView authorTv, TextView titleTv,
-                          TextView commentTv, TextView dateTv, ProgressBar progressBar, TextView afterTv){
+                          TextView commentTv, TextView dateTv, ProgressBar progressBar){
             this.authorTv = authorTv;
             this.imageResourceUrlIv = imageResourceUrlIv;
             this.titleTv = titleTv;
             this.commentTv = commentTv;
             this.dateTv = dateTv;
             this.progressBar = progressBar;
-            this.afterTv = afterTv;
         }
     }
 
@@ -64,15 +62,12 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             try{
                 connection = (HttpURLConnection)url.openConnection();
                 InputStream is = connection.getInputStream();
-                //bitmap =BitmapFactory.decodeStream(is,null,options);
                 bitmap =BitmapFactory.decodeStream(is,null,null);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return bitmap;
         }
-        //VER SI ESTA BIEN FORMADA LA URL Y SI NO DEVOLVER NULL PARA QUE SE PUEDA PONER LA IMAGEN PREDEFINIDA
-        // DE REDDIT
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
@@ -111,8 +106,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                     (TextView) convertView.findViewById(R.id.centerReddit),
                     (TextView)convertView.findViewById(R.id.numCommentReddit),
                     (TextView) convertView.findViewById(R.id.dateReddit),
-                    (ProgressBar)convertView.findViewById(R.id.progressBar),
-                    (TextView) convertView.findViewById(R.id.afterReddit));
+                    (ProgressBar)convertView.findViewById(R.id.progressBar));
             convertView.setTag(viewHolder);
         }
         else{
@@ -145,13 +139,10 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
         }
 
-
         viewHolder.authorTv.setText(pm.getAuthor());
         viewHolder.titleTv.setText(pm.getTitle());
         viewHolder.commentTv.setText(String.valueOf(pm.getComment()));
         viewHolder.dateTv.setText(pm.getDate());
-
-        GetTopPostsTask task = new GetTopPostsTask();
 
         return convertView;
     }
