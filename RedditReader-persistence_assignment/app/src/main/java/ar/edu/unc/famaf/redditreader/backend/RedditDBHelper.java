@@ -41,7 +41,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d("DB","Database updated");
-        db.execSQL(" DROP TABLE IF EXIST " + POST_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + POST_TABLE);
         this.onCreate(db);
     }
 }

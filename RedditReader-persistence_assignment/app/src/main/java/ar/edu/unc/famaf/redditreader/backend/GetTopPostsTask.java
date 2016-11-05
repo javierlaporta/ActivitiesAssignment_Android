@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -24,17 +23,17 @@ public class GetTopPostsTask extends AsyncTask<RedditDBHelper, Void, List<PostMo
         InputStream input = null;
         try {
             HttpURLConnection conn = (HttpURLConnection) new URL
-                    ("https://www.reddit.com/top.json?limit=50").openConnection();
+                    ("https://www.reddit.com/top.json?limit=6").openConnection();
             conn.setRequestMethod("GET");
             input = conn.getInputStream();
             Parser parser = new Parser();
             Listing listing = parser.readJsonStream(input);
             List<PostModel> postList = listing.getChildren();
-            //esto va a ir en la task nueva
+//            esto va a ir en la task nueva
             RedditDBHelper dataBase = params[0];
-            String nameTable = "postReddit";
             SQLiteDatabase db = dataBase.getWritableDatabase();
-
+//          borrar la base de datos vieja y pisarla con los 50 nuevos
+            dataBase.onUpgrade(db, 1, 2);
 
             for(int i=0; i< postList.size();i++){
                 String title = postList.get(i).getTitle();
@@ -42,10 +41,6 @@ public class GetTopPostsTask extends AsyncTask<RedditDBHelper, Void, List<PostMo
                 String date = postList.get(i).getDate();
                 String comment= postList.get(i).getComment();
                 String image = postList.get(i).getimageResourceUrl();
-//                String sql =
-//                        "INSERT INTO "+nameTable+" (title, author, date, comment, image) "+
-//                        "VALUES "+"(" + title+","+author+","+date+","+comment+","+image+")";
-//                db.execSQL(sql);
 // Create a new map of values, where column names are the keys
                 ContentValues values = new ContentValues();
                 values.put(dataBase.POST_TABLE_TITLE, title);
@@ -56,7 +51,6 @@ public class GetTopPostsTask extends AsyncTask<RedditDBHelper, Void, List<PostMo
 // Insert the new row, returning the primary key value of the new row
                 long newRowId = db.insert(dataBase.POST_TABLE, null, values);
             }
-
 
             return  postList;
         } catch (IOException e) {
