@@ -1,9 +1,5 @@
 package ar.edu.unc.famaf.redditreader.model;
 
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 public class PostModel {
     private String  title;
     private String author;

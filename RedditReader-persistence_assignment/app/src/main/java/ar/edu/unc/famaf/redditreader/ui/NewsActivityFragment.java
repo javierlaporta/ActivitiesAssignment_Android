@@ -15,6 +15,7 @@ import java.util.List;
 import ar.edu.unc.famaf.redditreader.PostAdapter;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.GetTopPostsTask;
+import ar.edu.unc.famaf.redditreader.backend.RedditDBHelper;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 
@@ -32,18 +33,26 @@ public class NewsActivityFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_news, container, false);
         final ListView postLv = (ListView) v.findViewById(R.id.postLV);
 
+
         if(!isConnected(getActivity())){
             buildDialog(getActivity()).show();
         }
         else {
+            RedditDBHelper db = new RedditDBHelper(getContext(),1);
+            RedditDBHelper[] dbArray = new RedditDBHelper[1];
+            dbArray[0] = db;
             new GetTopPostsTask() {
                 @Override
                 protected void onPostExecute(List<PostModel> postModels) {
                     super.onPostExecute(postModels);
+//                     aca una new task qe me guarde cosas en la base de datos
+//                    new WriteDataBaseTask(){
+//                        onpostexcecute
+//                    }
                     PostAdapter adapter = new PostAdapter(getContext(), R.layout.porst_row, postModels);
                     postLv.setAdapter(adapter);
                 }
-            }.execute();
+            }.execute(dbArray);
         }
 
         return v;
