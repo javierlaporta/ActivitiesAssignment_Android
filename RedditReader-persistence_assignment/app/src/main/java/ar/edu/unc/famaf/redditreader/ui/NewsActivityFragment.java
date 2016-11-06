@@ -65,10 +65,6 @@ public class NewsActivityFragment extends Fragment {
                 @Override
                 protected void onPostExecute(List<PostModel> postModels) {
                     super.onPostExecute(postModels);
-//                     aca una new task qe me guarde cosas en la base de datos
-//                    new WriteDataBaseTask(){
-//                        onpostexcecute
-//                    }
                     PostAdapter adapter = new PostAdapter(getContext(), R.layout.porst_row, postModels);
                     postLv.setAdapter(adapter);
                 }

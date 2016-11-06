@@ -29,7 +29,7 @@ public class GetTopPostsTask extends AsyncTask<RedditDBHelper, Void, List<PostMo
             Parser parser = new Parser();
             Listing listing = parser.readJsonStream(input);
             List<PostModel> postList = listing.getChildren();
-//            esto va a ir en la task nueva
+//          Quizas luego esto pueda ir en una task nueva
             RedditDBHelper dataBase = params[0];
             SQLiteDatabase db = dataBase.getWritableDatabase();
 //          borrar la base de datos vieja y pisarla con los 50 nuevos
