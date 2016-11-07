@@ -32,19 +32,17 @@ public class ThumbnailHelper {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
-    public Bitmap getImage(String imageUrl) {
-        Bitmap bitmap = null;
-//        String whereClause = db.POST_TABLE_IMAGEURL + "= '" + imageUrl + "'";
-        Cursor cursor = readbleDataBase.rawQuery(
-                " SELECT * FROM " + RedditDBHelper.POST_TABLE +
-                " WHERE " + RedditDBHelper.POST_TABLE_IMAGEURL + "= '" + imageUrl + "'" +";",
-                null);
-
-        if (cursor.moveToFirst() && !cursor.isNull(cursor.getColumnIndex(RedditDBHelper.POST_TABLE_BITMAP))) {
-            bitmap = getImageFromByteArray(cursor.getBlob(cursor.getColumnIndex(RedditDBHelper.POST_TABLE_BITMAP)));
-        }
-        return bitmap;
-    }
-
-
+//    public Bitmap getImage(String imageUrl) {
+//        Bitmap bitmap = null;
+////        String whereClause = db.POST_TABLE_IMAGEURL + "= '" + imageUrl + "'";
+//        Cursor cursor = readbleDataBase.rawQuery(
+//                " SELECT * FROM " + RedditDBHelper.POST_TABLE +
+//                " WHERE " + RedditDBHelper.POST_TABLE_IMAGEURL + "= '" + imageUrl + "'" +";",
+//                null);
+//
+//        if (cursor.moveToFirst() && !cursor.isNull(cursor.getColumnIndex(RedditDBHelper.POST_TABLE_BITMAP))) {
+//            bitmap = getImageFromByteArray(cursor.getBlob(cursor.getColumnIndex(RedditDBHelper.POST_TABLE_BITMAP)));
+//        }
+//        return bitmap;
+//    }
 }

@@ -16,7 +16,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     public static final String POST_TABLE_AUTHOR = "author";
     public static final String POST_TABLE_DATE = "date";
     public static final String POST_TABLE_COMMENT = "comment";
-    public static final String POST_TABLE_IMAGEURL = "imageURL";
+    public static final String POST_TABLE_IMAGEURL = "imageUrl";
     public static final String POST_TABLE_BITMAP = "bitmap";
 
 
@@ -32,7 +32,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
             +POST_TABLE_AUTHOR+" text not null,"
             +POST_TABLE_DATE+" text not null,"
             +POST_TABLE_COMMENT+" text not null,"
-            +POST_TABLE_IMAGEURL+" text not null"
+            +POST_TABLE_IMAGEURL+" text not null,"
             + POST_TABLE_BITMAP + " blob"
             +" );";
             db.execSQL(createSentence);

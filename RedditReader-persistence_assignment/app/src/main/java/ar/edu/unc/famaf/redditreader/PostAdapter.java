@@ -135,17 +135,15 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 //        }else{
 //
 //        }
-        String myUrl = pm.getimageResourceUrl();
-        Bitmap bitmap = new ThumbnailHelper(getContext()).getImage(myUrl);
-        if(bitmap == null){
-            //Para ese URL la columna BITMAP es null => descargar la imagen y almacenarla en la bd
-
-
-        }else{
-            //Ya tenia guardado el bitmap en la columna BITMAP => leerlo de alli
-            viewHolder.progressBar.setVisibility(View.GONE);
-            viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
-        }
+//        String myUrl = pm.getimageResourceUrl();
+//        Bitmap bitmap = new ThumbnailHelper(getContext()).getImage(myUrl);
+//        if(bitmap == null){
+//            //Para ese URL la columna BITMAP es null => descargar la imagen y almacenarla en la bd
+//        }else{
+//            //Ya tenia guardado el bitmap en la columna BITMAP => leerlo de alli
+//            viewHolder.progressBar.setVisibility(View.GONE);
+//            viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
+//        }
 
 
         return convertView;
