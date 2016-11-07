@@ -31,7 +31,7 @@ public class WriteDatabaseTask extends AsyncTask<Object, Void, Void> {
             values.put(db.POST_TABLE_AUTHOR, author);
             values.put(db.POST_TABLE_DATE,date);
             values.put(db.POST_TABLE_COMMENT,comment);
-            values.put(db.POST_TABLE_IMAGE,image);
+            values.put(db.POST_TABLE_IMAGEURL,image);
             writableDatabase.insert(db.POST_TABLE, null, values);
         }
         return null;

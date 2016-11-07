@@ -10,20 +10,18 @@ import android.util.Log;
  */
 public class RedditDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "dbReddit.db";
+    private static final int DATABASE_VERSION = 1;
     public static final String POST_TABLE = "postReddit";
-    public static final String POST_TABLE_ID = "_id";
     public static final String POST_TABLE_TITLE = "title";
     public static final String POST_TABLE_AUTHOR = "author";
     public static final String POST_TABLE_DATE = "date";
     public static final String POST_TABLE_COMMENT = "comment";
-    public static final String POST_TABLE_IMAGE = "image";
-//  necesario para guardar las imagenes en la bd
-//    public static final String POST_TABLE_THUMBNAIL = "thumbnail";
-//    public static final String POST_TABLE_BITMAP = "bitmap";
+    public static final String POST_TABLE_IMAGEURL = "imageURL";
+    public static final String POST_TABLE_BITMAP = "bitmap";
 
 
-    public RedditDBHelper(Context context, int version) {
-        super(context, DATABASE_NAME , null, version);
+    public RedditDBHelper(Context context) {
+        super(context, DATABASE_NAME , null, DATABASE_VERSION);
     }
 
     @Override
@@ -34,8 +32,8 @@ public class RedditDBHelper extends SQLiteOpenHelper {
             +POST_TABLE_AUTHOR+" text not null,"
             +POST_TABLE_DATE+" text not null,"
             +POST_TABLE_COMMENT+" text not null,"
-            +POST_TABLE_IMAGE+" text not null"
-//            + POST_TABLE_BITMAP + " blob"
+            +POST_TABLE_IMAGEURL+" text not null"
+            + POST_TABLE_BITMAP + " blob"
             +" );";
             db.execSQL(createSentence);
 

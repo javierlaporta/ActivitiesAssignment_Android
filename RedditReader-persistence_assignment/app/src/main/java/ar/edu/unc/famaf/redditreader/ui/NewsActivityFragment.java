@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unc.famaf.redditreader.PostAdapter;
@@ -37,7 +36,9 @@ public class NewsActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_news, container, false);
         final ListView postLv = (ListView) v.findViewById(R.id.postLV);
-        final RedditDBHelper db = new RedditDBHelper(getContext(),1);
+        final RedditDBHelper db = new RedditDBHelper(getContext());
+        //TENGO DUDAS CON ESTE FINAL: SI FUERA FINAL ES UNA CONSTATNE QUE NO DEBERIA CAMBIAR DE
+        //VALOR LUEGO; PERO VA A CAMBIAR DE VALORES CUANDO SE SOBRE ESCRIBA LA BASE DE DATOS
 
         if(!isConnected(getActivity())){
             //buildDialog(getActivity()).show();
