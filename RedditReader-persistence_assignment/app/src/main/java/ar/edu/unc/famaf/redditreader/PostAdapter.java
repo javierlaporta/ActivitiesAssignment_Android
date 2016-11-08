@@ -105,45 +105,40 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         viewHolder.titleTv.setText(pm.getTitle());
         viewHolder.commentTv.setText(String.valueOf(pm.getComment()));
         viewHolder.dateTv.setText(pm.getDate());
-        //Descargar-leer-Imagen
-//        URL myUrl = null;
-//        try {
-//            myUrl = new URL(pm.getimageResourceUrl());
-//            URL[] urlArray = new URL[1];
-//            urlArray[0] = myUrl;
-//            new DownloadImageAsyncTask() {
-//                @Override
-//                protected void onPostExecute(Bitmap bitmap) {
-//                    super.onPostExecute(bitmap);
-//                    viewHolder.progressBar.setVisibility(ProgressBar.GONE);
-//                    if(bitmap != null){
-//                        viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
-//                    }
-//                    else{
-//                        viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
-//                    }
-//                }
-//            }.execute(urlArray);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//            viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
-//        }
+//        Descargar-leer-Imagen
 
-//        if(tabla en POST_TABLE_BITMAP == NULL){
-//            llamar a dowloadImageAsynktask para q descargue la imagen
-//            guardar la imagen en la bd
-//        }else{
-//
-//        }
-//        String myUrl = pm.getimageResourceUrl();
-//        Bitmap bitmap = new ThumbnailHelper(getContext()).getImage(myUrl);
-//        if(bitmap == null){
-//            //Para ese URL la columna BITMAP es null => descargar la imagen y almacenarla en la bd
-//        }else{
-//            //Ya tenia guardado el bitmap en la columna BITMAP => leerlo de alli
-//            viewHolder.progressBar.setVisibility(View.GONE);
-//            viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
-//        }
+        final String imageUrl = pm.getimageResourceUrl();
+        Bitmap bitmap = new ThumbnailHelper(getContext()).getImage(imageUrl);
+        if(bitmap == null){
+            //Para ese URL la columna BITMAP es null => descargar la imagen y almacenarla en la bd
+            URL myUrl;
+            try {
+                myUrl = new URL(pm.getimageResourceUrl());
+                URL[] urlArray = new URL[1];
+                urlArray[0] = myUrl;
+                new DownloadImageAsyncTask() {
+                    @Override
+                    protected void onPostExecute(Bitmap bitmap) {
+                        super.onPostExecute(bitmap);
+                        viewHolder.progressBar.setVisibility(ProgressBar.GONE);
+                        if(bitmap != null){
+                            viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
+                            new ThumbnailHelper(getContext()).saveImage(imageUrl, bitmap);
+                        }
+                        else{
+                            viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
+                        }
+                    }
+                }.execute(urlArray);
+            } catch (MalformedURLException e) {
+                viewHolder.progressBar.setVisibility(View.GONE);
+                viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
+            }
+        }else{
+            //Ya tenia guardado el bitmap en la columna BITMAP => leerlo de alli
+            viewHolder.progressBar.setVisibility(View.GONE);
+            viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
+        }
 
 
         return convertView;

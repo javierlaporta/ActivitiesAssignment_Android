@@ -19,19 +19,13 @@ public class WriteDatabaseTask extends AsyncTask<Object, Void, Void> {
         SQLiteDatabase writableDatabase = db.getWritableDatabase();
 //          borrar la base de datos vieja y pisarla con los 50 nuevos
         writableDatabase.delete(RedditDBHelper.POST_TABLE, null, null);
-//        db.onUpgrade(writableDatabase, 1, 2);
         for(int i=0; i< postList.size();i++){
-            String title = postList.get(i).getTitle();
-            String author = postList.get(i).getAuthor();
-            String date = postList.get(i).getDate();
-            String comment= postList.get(i).getComment();
-            String image = postList.get(i).getimageResourceUrl();
             ContentValues values = new ContentValues();
-            values.put(RedditDBHelper.POST_TABLE_TITLE, title);
-            values.put(RedditDBHelper.POST_TABLE_AUTHOR, author);
-            values.put(RedditDBHelper.POST_TABLE_DATE,date);
-            values.put(RedditDBHelper.POST_TABLE_COMMENT,comment);
-            values.put(RedditDBHelper.POST_TABLE_IMAGEURL,image);
+            values.put(RedditDBHelper.POST_TABLE_TITLE, postList.get(i).getTitle());
+            values.put(RedditDBHelper.POST_TABLE_AUTHOR, postList.get(i).getAuthor());
+            values.put(RedditDBHelper.POST_TABLE_DATE,postList.get(i).getDate());
+            values.put(RedditDBHelper.POST_TABLE_COMMENT,postList.get(i).getComment());
+            values.put(RedditDBHelper.POST_TABLE_IMAGEURL,postList.get(i).getimageResourceUrl());
             writableDatabase.insert(RedditDBHelper.POST_TABLE, null, values);
         }
         return null;

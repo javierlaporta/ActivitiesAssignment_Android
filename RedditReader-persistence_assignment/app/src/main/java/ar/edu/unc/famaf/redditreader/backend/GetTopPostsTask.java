@@ -17,10 +17,10 @@ public class GetTopPostsTask extends AsyncTask<Void, Void, List<PostModel>> {
 
     @Override
     protected List<PostModel> doInBackground(Void...params) {
-        InputStream input = null;
+        InputStream input;
         try {
             HttpURLConnection conn = (HttpURLConnection) new URL
-                    ("https://www.reddit.com/top.json?limit=8").openConnection();
+                    ("https://www.reddit.com/top.json?limit=11").openConnection();
             conn.setRequestMethod("GET");
             input = conn.getInputStream();
             Parser parser = new Parser();

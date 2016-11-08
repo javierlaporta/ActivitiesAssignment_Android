@@ -1,5 +1,6 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,7 +25,7 @@ public class ThumbnailHelper {
 
     public static byte[] getBytesFromBitmap(Bitmap bitmap){
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,0, stream);
+        bitmap.compress(Bitmap.CompressFormat.PNG,0, stream);
         return stream.toByteArray();
     }
 
@@ -32,17 +33,27 @@ public class ThumbnailHelper {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
-//    public Bitmap getImage(String imageUrl) {
-//        Bitmap bitmap = null;
-////        String whereClause = db.POST_TABLE_IMAGEURL + "= '" + imageUrl + "'";
-//        Cursor cursor = readbleDataBase.rawQuery(
-//                " SELECT * FROM " + RedditDBHelper.POST_TABLE +
-//                " WHERE " + RedditDBHelper.POST_TABLE_IMAGEURL + "= '" + imageUrl + "'" +";",
-//                null);
-//
-//        if (cursor.moveToFirst() && !cursor.isNull(cursor.getColumnIndex(RedditDBHelper.POST_TABLE_BITMAP))) {
-//            bitmap = getImageFromByteArray(cursor.getBlob(cursor.getColumnIndex(RedditDBHelper.POST_TABLE_BITMAP)));
-//        }
-//        return bitmap;
-//    }
+    public Bitmap getImage(String imageUrl) {
+        Bitmap bitmap = null;
+        Cursor cursor = readbleDataBase.rawQuery(
+                " SELECT * FROM " + RedditDBHelper.POST_TABLE +
+                " WHERE " + RedditDBHelper.POST_TABLE_IMAGEURL + "= '" + imageUrl + "'" +";",
+                null);
+
+        if (cursor.moveToFirst() && !cursor.isNull(cursor.
+                getColumnIndex(RedditDBHelper.POST_TABLE_BITMAP))) {
+            bitmap = getImageFromByteArray(cursor.getBlob(cursor.
+                    getColumnIndex(RedditDBHelper.POST_TABLE_BITMAP)));
+        }
+        cursor.close();
+        db.close();
+        return bitmap;
+    }
+
+    public void saveImage(String imageUrl, Bitmap bitmap){
+        ContentValues values = new ContentValues();
+        values.put(RedditDBHelper.POST_TABLE_BITMAP,getBytesFromBitmap(bitmap));
+        writableDataBase.update(RedditDBHelper.POST_TABLE, values,
+                RedditDBHelper.POST_TABLE_IMAGEURL +" = '"+ imageUrl + "'", null);
+    }
 }

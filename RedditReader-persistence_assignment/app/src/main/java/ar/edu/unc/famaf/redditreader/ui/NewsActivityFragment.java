@@ -37,14 +37,12 @@ public class NewsActivityFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_news, container, false);
         final ListView postLv = (ListView) v.findViewById(R.id.postLV);
         final RedditDBHelper db = new RedditDBHelper(getContext());
-        //TENGO DUDAS CON ESTE FINAL: SI FUERA FINAL ES UNA CONSTATNE QUE NO DEBERIA CAMBIAR DE
-        //VALOR LUEGO; PERO VA A CAMBIAR DE VALORES CUANDO SE SOBRE ESCRIBA LA BASE DE DATOS
 
         if(!isConnected(getActivity())){
             //buildDialog(getActivity()).show();
             List<PostModel> postModelList = new ArrayList<>();
             SQLiteDatabase readableDatabase = db.getReadableDatabase();
-            Cursor cursor = readableDatabase.rawQuery("SELECT * FROM " + db.POST_TABLE, null);
+            Cursor cursor = readableDatabase.rawQuery("SELECT * FROM " + RedditDBHelper.POST_TABLE, null);
 
             if (cursor.moveToFirst()) {
                 do {
@@ -57,6 +55,8 @@ public class NewsActivityFragment extends Fragment {
                     postModelList.add(postModel);
                 } while (cursor.moveToNext());
             }
+            cursor.close();
+            db.close();
             PostAdapter adapter = new PostAdapter(getContext(), R.layout.porst_row, postModelList);
             postLv.setAdapter(adapter);
         }
@@ -86,10 +86,8 @@ public class NewsActivityFragment extends Fragment {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
 
         if (netInfo != null) { // tengo conexion a internet
-            if (netInfo.getType() == ConnectivityManager.TYPE_WIFI ||
-                    netInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                return true;
-            } else return false;
+            return netInfo.getType() == ConnectivityManager.TYPE_WIFI ||
+                    netInfo.getType() == ConnectivityManager.TYPE_MOBILE;
         } else {
             return false;
         }
