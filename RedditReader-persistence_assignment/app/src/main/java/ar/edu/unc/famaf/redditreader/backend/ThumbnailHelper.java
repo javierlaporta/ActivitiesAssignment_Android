@@ -23,13 +23,13 @@ public class ThumbnailHelper {
         readbleDataBase = db.getReadableDatabase();
     }
 
-    public static byte[] getBytesFromBitmap(Bitmap bitmap){
+    private static byte[] getBytesFromBitmap(Bitmap bitmap){
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,0, stream);
         return stream.toByteArray();
     }
 
-    public static Bitmap getImageFromByteArray(byte[] image){
+    private static Bitmap getImageFromByteArray(byte[] image){
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
