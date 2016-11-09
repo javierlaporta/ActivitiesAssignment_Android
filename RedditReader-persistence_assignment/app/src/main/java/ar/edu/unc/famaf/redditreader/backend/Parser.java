@@ -1,5 +1,6 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
+import android.text.format.DateUtils;
 import android.util.JsonReader;
 
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import android.util.JsonToken;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import ar.edu.unc.famaf.redditreader.model.Listing;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
@@ -110,17 +112,18 @@ public class Parser {
 
             if (name.equals("title") && check != JsonToken.NULL) {
                 title = reader.nextString();
-            }else if(name.equals("author") && check != JsonToken.NULL){
+            }else if(name.equals("subreddit") && check != JsonToken.NULL){
                 author = reader.nextString();
             }else if (name.equals("num_comments")&& check != JsonToken.NULL){
                 num_comments = reader.nextString();
             }else  if (name.equals("thumbnail") && check != JsonToken.NULL) {
                 thumbnail = reader.nextString();
-            }else if (name.equals("created") && check != JsonToken.NULL){
+            }else if (name.equals("created_utc") && check != JsonToken.NULL){
                 millis = reader.nextLong();
-                df.getTimeZone().getOffset(millis);
-                df.setTimeZone(TimeZone.getTimeZone("GMT"));
-                created = df.format(millis);
+                long currentTime = System.currentTimeMillis();
+                Date date = new Date(millis* 1000);
+                created = DateUtils.getRelativeTimeSpanString(date.getTime(),
+                        currentTime, DateUtils.MINUTE_IN_MILLIS).toString();
             }
             else {
                 reader.skipValue();

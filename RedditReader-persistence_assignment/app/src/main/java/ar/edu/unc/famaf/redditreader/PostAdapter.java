@@ -101,7 +101,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         }
 
         PostModel pm = postLst.get(position);
-        viewHolder.authorTv.setText(pm.getAuthor());
+        viewHolder.authorTv.setText("/r/"+pm.getAuthor());
         viewHolder.titleTv.setText(pm.getTitle());
         viewHolder.commentTv.setText(String.valueOf(pm.getComment()));
         viewHolder.dateTv.setText(pm.getDate());
@@ -139,8 +139,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             viewHolder.progressBar.setVisibility(View.GONE);
             viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
         }
-
-
         return convertView;
     }
 }
