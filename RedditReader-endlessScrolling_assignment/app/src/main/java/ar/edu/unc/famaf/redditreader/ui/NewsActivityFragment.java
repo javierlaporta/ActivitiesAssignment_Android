@@ -13,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unc.famaf.redditreader.PostAdapter;
 import ar.edu.unc.famaf.redditreader.R;
+import ar.edu.unc.famaf.redditreader.backend.Backend;
 import ar.edu.unc.famaf.redditreader.backend.GetTopPostsTask;
 import ar.edu.unc.famaf.redditreader.backend.RedditDBHelper;
 import ar.edu.unc.famaf.redditreader.backend.WriteDatabaseTask;
@@ -26,7 +29,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class NewsActivityFragment extends Fragment {
+public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
 
     public NewsActivityFragment() {
     }
@@ -39,7 +42,7 @@ public class NewsActivityFragment extends Fragment {
         final RedditDBHelper db = new RedditDBHelper(getContext());
 
         if(!isConnected(getActivity())){
-            //buildDialog(getActivity()).show();
+            showToast(getContext());
             List<PostModel> postModelList = new ArrayList<>();
             SQLiteDatabase readableDatabase = db.getReadableDatabase();
             Cursor cursor = readableDatabase.rawQuery("SELECT * FROM " + RedditDBHelper.POST_TABLE, null);
@@ -61,23 +64,32 @@ public class NewsActivityFragment extends Fragment {
             postLv.setAdapter(adapter);
         }
         else {
-            new GetTopPostsTask() {
-                @Override
-                protected void onPostExecute(List<PostModel> postModels) {
-                    super.onPostExecute(postModels);
-                    PostAdapter adapter = new PostAdapter(getContext(), R.layout.porst_row, postModels);
-                    postLv.setAdapter(adapter);
-
-                    Object[] objectArray = new Object[2];
-                    objectArray[0]= postModels;
-                    objectArray[1]= db;
-                    new WriteDatabaseTask(){
-                    }.execute(objectArray);
-                }
-            }.execute();
+//            new GetTopPostsTask() {
+//                @Override
+//                protected void onPostExecute(List<PostModel> postModels) {
+//                    super.onPostExecute(postModels);
+//                    PostAdapter adapter = new PostAdapter(getContext(), R.layout.porst_row, postModels);
+//                    postLv.setAdapter(adapter);
+//
+//                    Object[] objectArray = new Object[2];
+//                    objectArray[0]= postModels;
+//                    objectArray[1]= db;
+//                    new WriteDatabaseTask(){
+//                    }.execute(objectArray);
+//                }
+//            }.execute();
+//            aca hacer una instancia de backend y llamar a PostIteratorListener
+            Backend.getInstance().getNextPosts(this,getContext());
         }
 
+//        listerner
+
         return v;
+    }
+
+    @Override
+    public void nextPosts(List<PostModel> posts) {
+
     }
 
     public boolean isConnected(Context context) {
@@ -93,19 +105,11 @@ public class NewsActivityFragment extends Fragment {
         }
     }
 
-    public AlertDialog.Builder buildDialog(Context c) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        builder.setTitle("No Internet connection.");
-        builder.setMessage("You haven't internet connection");
-
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        return builder;
+    public void showToast(Context c){
+        CharSequence text = "No Internet connection";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(c, text, duration);
+        toast.show();
     }
-
 }
 
