@@ -17,8 +17,8 @@ import ar.edu.unc.famaf.redditreader.ui.PostsIteratorListener;
  */
 public class Backend {
     private static Backend ourInstance = new Backend();
-    private String from = "0";
-    private String to = "5";
+    private int from = 0;
+    private int umbral = 5;
 
     public static Backend getInstance() {
         return ourInstance;
@@ -46,15 +46,10 @@ public class Backend {
         }
         List<PostModel> postModelList = new ArrayList<>();
         SQLiteDatabase readableDatabase = db.getReadableDatabase();
-
-
         Cursor cursor = readableDatabase.rawQuery("SELECT * FROM " + RedditDBHelper.POST_TABLE +
-                " LIMIT " + from +"," + to , null);
+                " LIMIT " + Integer.toString(from) +"," + Integer.toString(umbral) , null);
 
-        int  i = Integer.parseInt(from) + Integer.parseInt(to);
-        int j = Integer.parseInt(to) + Integer.parseInt(to);
-        from = Integer.toString(i);
-        to = Integer.toString(j);
+        from +=umbral;
 
         if (cursor.moveToFirst()) {
             do {
