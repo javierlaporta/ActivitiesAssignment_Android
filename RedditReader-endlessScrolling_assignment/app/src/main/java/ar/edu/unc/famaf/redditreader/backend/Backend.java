@@ -18,7 +18,7 @@ import ar.edu.unc.famaf.redditreader.ui.PostsIteratorListener;
 public class Backend {
     private static Backend ourInstance = new Backend();
     private int from = 0;
-    private int umbral = 5;
+    private static int UMBRAL = 5;
 
     public static Backend getInstance() {
         return ourInstance;
@@ -27,11 +27,11 @@ public class Backend {
     private Backend() {
     }
 
-    public void getNextPosts(final PostsIteratorListener listener, Context context) {
+    public void getNextPosts(final PostsIteratorListener listener, Context context, Boolean write) {
 
         final RedditDBHelper db = new RedditDBHelper(context);
 
-        if (isConnected(context)){
+        if (isConnected(context) && write){
             new GetTopPostsTask() {
                 @Override
                 protected void onPostExecute(List<PostModel> postModels) {
@@ -47,9 +47,9 @@ public class Backend {
         List<PostModel> postModelList = new ArrayList<>();
         SQLiteDatabase readableDatabase = db.getReadableDatabase();
         Cursor cursor = readableDatabase.rawQuery("SELECT * FROM " + RedditDBHelper.POST_TABLE +
-                " LIMIT " + Integer.toString(from) +"," + Integer.toString(umbral) , null);
+                " LIMIT " + Integer.toString(from) +"," + Integer.toString(UMBRAL) , null);
 
-        from +=umbral;
+        from +=UMBRAL;
 
         if (cursor.moveToFirst()) {
             do {
