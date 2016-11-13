@@ -65,7 +65,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     public void nextPosts(List<PostModel> posts) {
         postsList.addAll(posts);
         ListView postLv = (ListView) v.findViewById(R.id.postLV);
-        PostAdapter adapter = new PostAdapter(getContext(), R.layout.porst_row, posts);
+        PostAdapter adapter = new PostAdapter(getContext(), R.layout.porst_row, postsList);
         adapter.notifyDataSetChanged();
         postLv.setAdapter(adapter);
     }
