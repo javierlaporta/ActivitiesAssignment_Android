@@ -17,6 +17,8 @@ import ar.edu.unc.famaf.redditreader.ui.PostsIteratorListener;
  */
 public class Backend {
     private static Backend ourInstance = new Backend();
+    private String from = "0";
+    private String to = "5";
 
     public static Backend getInstance() {
         return ourInstance;
@@ -26,9 +28,6 @@ public class Backend {
     }
 
     public void getNextPosts(final PostsIteratorListener listener, Context context) {
-        // HAY QUE REFORMAR ACAAAAAAAAAAAAAAAA
-        //aca voy a tener q hacer que me lea de a 5 posts accediendo a la base de datos
-        //voy a tener q llamar a listener.nextPost
 
         final RedditDBHelper db = new RedditDBHelper(context);
 
@@ -47,7 +46,15 @@ public class Backend {
         }
         List<PostModel> postModelList = new ArrayList<>();
         SQLiteDatabase readableDatabase = db.getReadableDatabase();
-        Cursor cursor = readableDatabase.rawQuery("SELECT * FROM " + RedditDBHelper.POST_TABLE, null);
+
+
+        Cursor cursor = readableDatabase.rawQuery("SELECT * FROM " + RedditDBHelper.POST_TABLE +
+                " LIMIT " + from +"," + to , null);
+
+        int  i = Integer.parseInt(from) + Integer.parseInt(to);
+        int j = Integer.parseInt(to) + Integer.parseInt(to);
+        from = Integer.toString(i);
+        to = Integer.toString(j);
 
         if (cursor.moveToFirst()) {
             do {

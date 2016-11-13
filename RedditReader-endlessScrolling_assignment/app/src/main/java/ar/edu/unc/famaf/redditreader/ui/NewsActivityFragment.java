@@ -20,9 +20,7 @@ import java.util.List;
 import ar.edu.unc.famaf.redditreader.PostAdapter;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
-import ar.edu.unc.famaf.redditreader.backend.GetTopPostsTask;
-import ar.edu.unc.famaf.redditreader.backend.RedditDBHelper;
-import ar.edu.unc.famaf.redditreader.backend.WriteDatabaseTask;
+import ar.edu.unc.famaf.redditreader.backend.EndlessScrollListener;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 
@@ -32,7 +30,8 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
 
     private View v;
-
+    ListView lview = null;
+    List<PostModel> postsList = new ArrayList<>();
     public NewsActivityFragment() {
     }
 
@@ -49,16 +48,26 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
             //si hay conexion => va a persistir
             //si no hay conexion pero hay datos en la bd => leer de alli
             Backend.getInstance().getNextPosts(this,getContext());
+            ListView lvItems = (ListView) v.findViewById(R.id.postLV);
+            lview = (ListView) v.findViewById(R.id.postLV);
+            lvItems.setOnScrollListener(new EndlessScrollListener() {
+                @Override
+                public boolean onLoadMore(int page, int totalItemsCount) {
+                    Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext());
+                    return true; // ONLY if more data is actually being loaded; false otherwise.
+                }
+            });
         }
         return v;
     }
 
     @Override
     public void nextPosts(List<PostModel> posts) {
+        postsList.addAll(posts);
         ListView postLv = (ListView) v.findViewById(R.id.postLV);
         PostAdapter adapter = new PostAdapter(getContext(), R.layout.porst_row, posts);
+        adapter.notifyDataSetChanged();
         postLv.setAdapter(adapter);
-        //luego voy a tener q llamar a notifyDataSetChanged() en el Postadapter p/actualizar
     }
 
     public void showToast(Context c){
