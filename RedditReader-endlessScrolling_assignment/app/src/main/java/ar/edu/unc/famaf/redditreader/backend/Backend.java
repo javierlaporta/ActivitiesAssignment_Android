@@ -43,9 +43,6 @@ public class Backend {
                         @Override
                         protected void onPostExecute(Void aVoid) {
                             super.onPostExecute(aVoid);
-                            //ESTOS POST QE LEO DESDE ACA NO LOS IMPRIME LUEGO EN PANTALLA
-                            // POR ESO DEBO reasignar FROM = 0 ABAJO
-                            // COMO HACER PARA QUE ESTOS POSTS TAMBIEN SALGAN EN PANTALLA?
                             readPost(listener,context,from,UMBRAL);
                             from+=UMBRAL;
                         }
@@ -53,7 +50,6 @@ public class Backend {
                 }
             }.execute();
             from = 0;
-
         }else{
             readPost(listener,context,from,UMBRAL);
             from +=UMBRAL;
