@@ -1,11 +1,13 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -26,8 +28,17 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     ListView lvItems = null;
     List<PostModel> postsList = new ArrayList<>();
     PostAdapter adapter;
+    OnPostItemSelectedListener postSelected = new OnPostItemSelectedListener() {
+        @Override
+        public void onPostItemPicked(PostModel post) {
+        }
+    };//duda: para que postSelected no sea null hice esto. Hay otra manera de hacerlo?
 
     public NewsActivityFragment() {
+    }
+
+    public interface OnPostItemSelectedListener{
+        void onPostItemPicked(PostModel post);
     }
 
     @Override
@@ -37,6 +48,14 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         lvItems = (ListView) v.findViewById(R.id.postLV);
         adapter = new PostAdapter(getContext(), R.layout.porst_row, postsList);
         lvItems.setAdapter(adapter);
+
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PostModel post = (PostModel) lvItems.getItemAtPosition(position);
+                postSelected.onPostItemPicked(post);
+            }
+        });
 
         if(!Backend.getInstance().isConnected(getContext())){
             showToast(getContext());
