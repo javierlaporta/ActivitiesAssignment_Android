@@ -28,17 +28,16 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     ListView lvItems = null;
     List<PostModel> postsList = new ArrayList<>();
     PostAdapter adapter;
-    OnPostItemSelectedListener postSelected = new OnPostItemSelectedListener() {
-        @Override
-        public void onPostItemPicked(PostModel post) {
-        }
-    };//duda: para que postSelected no sea null hice esto. Hay otra manera de hacerlo?
+    OnPostItemSelectedListener postSelected;
 
     public NewsActivityFragment() {
     }
 
-    public interface OnPostItemSelectedListener{
-        void onPostItemPicked(PostModel post);
+//Ojo onAttach is deprecated. PREGUNTAR COMO HACER PARA NO USAR ESTO! Android Developer lo usa
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        postSelected = (OnPostItemSelectedListener) activity;
     }
 
     @Override
