@@ -1,5 +1,6 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 
 public class NewsActivity extends AppCompatActivity implements OnPostItemSelectedListener {
+    public final static String POST_TITLE = "ar.edu.unc.famaf.redditreader.TITLE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +43,10 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
     }
 
     @Override
-    public void onPostItemPicked(PostModel post) {
-       String myAuthor = post.getAuthor();
-        Toast.makeText(this,myAuthor,Toast.LENGTH_LONG).show();
-        //interfaz de comuniccacion con fragmento
+    public void onPostItemPicked(PostModel post) {//interfaz de comuniccacion con fragmento
+        Intent intentToDetailAct= new Intent(this,NewsDetailActivity.class);
+        String postTitle = post.getTitle();
+        intentToDetailAct.putExtra(POST_TITLE,postTitle);
+        startActivity(intentToDetailAct);
     }
 }
