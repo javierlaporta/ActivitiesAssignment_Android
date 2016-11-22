@@ -103,6 +103,7 @@ public class Parser {
         String author = null;
         String num_comments = null;
         String thumbnail = null;
+        String linkWeb = null;
         Long millis;
         String created = null;
 
@@ -126,6 +127,8 @@ public class Parser {
                 Date date = new Date(millis* 1000);
                 created = DateUtils.getRelativeTimeSpanString(date.getTime(),
                         currentTime, DateUtils.MINUTE_IN_MILLIS).toString();
+            }else  if (name.equals("url") && check != JsonToken.NULL) {
+                linkWeb = reader.nextString();
             }
             else {
                 reader.skipValue();
@@ -137,6 +140,7 @@ public class Parser {
         postModelT3.setTitle(title);
         postModelT3.setimageResourceUrl(thumbnail);
         postModelT3.setDate(created);
+        postModelT3.setLinkWeb(linkWeb);
         return  postModelT3;
     }
 }

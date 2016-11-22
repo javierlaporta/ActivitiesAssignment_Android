@@ -93,6 +93,7 @@ public class Backend {
                 postModel.setDate(cursor.getString(4));
                 postModel.setComment(cursor.getString(5));
                 postModel.setimageResourceUrl(cursor.getString(6));
+                postModel.setLinkWeb(cursor.getString(7));
                 postModelList.add(postModel);
             } while (cursor.moveToNext());
         }
