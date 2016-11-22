@@ -89,9 +89,10 @@ public class Backend {
                 PostModel postModel = new PostModel();
                 postModel.setTitle(cursor.getString(1));
                 postModel.setAuthor(cursor.getString(2));
-                postModel.setDate(cursor.getString(3));
-                postModel.setComment(cursor.getString(4));
-                postModel.setimageResourceUrl(cursor.getString(5));
+                postModel.setSubreddit(cursor.getString(3));
+                postModel.setDate(cursor.getString(4));
+                postModel.setComment(cursor.getString(5));
+                postModel.setimageResourceUrl(cursor.getString(6));
                 postModelList.add(postModel);
             } while (cursor.moveToNext());
         }

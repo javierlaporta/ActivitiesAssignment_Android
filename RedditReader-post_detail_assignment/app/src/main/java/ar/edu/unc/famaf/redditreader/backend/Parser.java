@@ -98,12 +98,12 @@ public class Parser {
 
     public  PostModel readT3 (JsonReader reader) throws  IOException{
         PostModel postModelT3 = new PostModel();
+        String subreddit = null;
         String title = null;
         String author = null;
         String num_comments = null;
         String thumbnail = null;
         Long millis;
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         String created = null;
 
         while (reader.hasNext()) {
@@ -113,6 +113,8 @@ public class Parser {
             if (name.equals("title") && check != JsonToken.NULL) {
                 title = reader.nextString();
             }else if(name.equals("subreddit") && check != JsonToken.NULL){
+                subreddit = reader.nextString();
+            }else if(name.equals("author") && check != JsonToken.NULL){
                 author = reader.nextString();
             }else if (name.equals("num_comments")&& check != JsonToken.NULL){
                 num_comments = reader.nextString();
@@ -129,6 +131,7 @@ public class Parser {
                 reader.skipValue();
             }
         }
+        postModelT3.setSubreddit(subreddit);
         postModelT3.setAuthor(author);
         postModelT3.setComment(num_comments);
         postModelT3.setTitle(title);

@@ -23,6 +23,7 @@ public class WriteDatabaseTask extends AsyncTask<Object, Void, Void> {
             ContentValues values = new ContentValues();
             values.put(RedditDBHelper.POST_TABLE_TITLE, postList.get(i).getTitle());
             values.put(RedditDBHelper.POST_TABLE_AUTHOR, postList.get(i).getAuthor());
+            values.put(RedditDBHelper.POST_TABLE_SUBREDDIT, postList.get(i).getSubreddit());
             values.put(RedditDBHelper.POST_TABLE_DATE,postList.get(i).getDate());
             values.put(RedditDBHelper.POST_TABLE_COMMENT,postList.get(i).getComment());
             values.put(RedditDBHelper.POST_TABLE_IMAGEURL,postList.get(i).getimageResourceUrl());

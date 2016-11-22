@@ -8,6 +8,7 @@ public class PostModel implements Serializable {
     private String  date;
     private String comment;
     private String imageResourceUrl;
+    private String subreddit;
 
     public void setimageResourceUrl(String imageResourceUrl){
         this.imageResourceUrl = imageResourceUrl;
@@ -33,6 +34,10 @@ public class PostModel implements Serializable {
         this.comment = comment;
     }
 
+    public void setSubreddit(String subreddit) {
+        this.subreddit = subreddit;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -49,4 +54,7 @@ public class PostModel implements Serializable {
         return comment;
     }
 
+    public String getSubreddit() {
+        return subreddit;
+    }
 }

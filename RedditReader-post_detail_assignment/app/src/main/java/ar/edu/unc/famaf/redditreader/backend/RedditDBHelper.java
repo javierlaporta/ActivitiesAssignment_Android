@@ -14,6 +14,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     public static final String POST_TABLE = "postReddit";
     public static final String POST_TABLE_TITLE = "title";
     public static final String POST_TABLE_AUTHOR = "author";
+    public static final String POST_TABLE_SUBREDDIT = "subreddit";
     public static final String POST_TABLE_DATE = "date";
     public static final String POST_TABLE_COMMENT = "comment";
     public static final String POST_TABLE_IMAGEURL = "imageUrl";
@@ -30,6 +31,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
             + POST_TABLE+ " (_id integer primary key autoincrement,"
             +POST_TABLE_TITLE+ " text not null,"
             +POST_TABLE_AUTHOR+" text not null,"
+            +POST_TABLE_SUBREDDIT+" text not null,"
             +POST_TABLE_DATE+" text not null,"
             +POST_TABLE_COMMENT+" text not null,"
             +POST_TABLE_IMAGEURL+" text not null,"

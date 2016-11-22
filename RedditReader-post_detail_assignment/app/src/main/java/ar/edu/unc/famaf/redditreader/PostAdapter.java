@@ -101,12 +101,11 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         }
 
         PostModel pm = postLst.get(position);
-        viewHolder.authorTv.setText("/r/"+pm.getAuthor());
+        viewHolder.authorTv.setText("/r/"+pm.getSubreddit());
         viewHolder.titleTv.setText(pm.getTitle());
         viewHolder.commentTv.setText(String.valueOf(pm.getComment()));
         viewHolder.dateTv.setText(pm.getDate());
 //        Descargar-leer-Imagen
-
         final String imageUrl = pm.getimageResourceUrl();
         Bitmap bitmap = new ThumbnailHelper(getContext()).getImage(imageUrl);
         if(bitmap == null){
