@@ -17,6 +17,7 @@ public class LinkWebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WebView webview = new WebView(this);
+//        webview.getSettings().setBuiltInZoomControls(true);
         setContentView(webview);
         Intent intent = getIntent();
         String url = intent.getExtras().getString(LINK_WEB);
@@ -30,4 +31,5 @@ public class LinkWebActivity extends AppCompatActivity {
             Toast.makeText(this, "No Internet connection", Toast.LENGTH_LONG).show();
         }
     }
+
 }

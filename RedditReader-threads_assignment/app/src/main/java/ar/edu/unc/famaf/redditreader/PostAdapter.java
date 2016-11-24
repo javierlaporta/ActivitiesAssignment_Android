@@ -20,14 +20,19 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 import android.os.AsyncTask;
+import android.widget.Toast;
+
 /**
  * Created by javier on 07/10/16.
  */
 public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> postLst = null;
+    boolean malformed = false;
+    private HashMap<String, Bitmap> map = new HashMap<>();
 
     public class ViewHolder {
         public final TextView authorTv;
@@ -36,15 +41,19 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         public final TextView dateTv;
         public final TextView commentTv;
         public final ProgressBar progressBar;
+        public int position;
+        boolean isDownloading;
+
 
         public ViewHolder(ImageView imageResourceUrlIv, TextView authorTv, TextView titleTv,
-                          TextView commentTv, TextView dateTv, ProgressBar progressBar){
+                          TextView commentTv, TextView dateTv, ProgressBar progressBar, int position){
             this.authorTv = authorTv;
             this.imageResourceUrlIv = imageResourceUrlIv;
             this.titleTv = titleTv;
             this.commentTv = commentTv;
             this.dateTv = dateTv;
             this.progressBar = progressBar;
+            this.position = position;
         }
     }
 
@@ -55,12 +64,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             URL url =params[0];
             Bitmap bitmap = null;
             HttpURLConnection connection = null;
-            //DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-            //BitmapFactory.Options options = new BitmapFactory.Options();
-            //options.inDensity = DisplayMetrics.DENSITY_280;
-            //options.inScreenDensity = metrics.densityDpi;
-            //options.inTargetDensity = metrics.densityDpi;
-            //preguntaaaaaaaaaaaaaar!!!
             try{
                 connection = (HttpURLConnection)url.openConnection();
                 InputStream is = connection.getInputStream();
@@ -72,10 +75,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             return bitmap;
         }
 
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            System.out.print("onPostExcecute");
-        }
     }
 
     public PostAdapter(Context context, int textViewResourceId, List<PostModel> postLst) {
@@ -98,53 +97,84 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.porst_row, parent, false);
         }
         if(convertView.getTag() == null){
-        viewHolder = new ViewHolder((ImageView) convertView.findViewById(R.id.imageReddit),
+            viewHolder = new ViewHolder((ImageView) convertView.findViewById(R.id.imageReddit),
                     (TextView) convertView.findViewById(R.id.headReddit),
                     (TextView) convertView.findViewById(R.id.centerReddit),
                     (TextView)convertView.findViewById(R.id.numCommentReddit),
                     (TextView) convertView.findViewById(R.id.dateReddit),
-                    (ProgressBar)convertView.findViewById(R.id.progressBar));
+                    (ProgressBar)convertView.findViewById(R.id.progressBar),
+                    position);
             convertView.setTag(viewHolder);
         }
         else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        PostModel pm = postLst.get(position);
+        viewHolder.progressBar.setVisibility(ProgressBar.VISIBLE);
 
-        URL myUrl = null;
-        try {
-            myUrl = new URL(pm.getimageResourceUrl());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        final PostModel post = postLst.get(position);
+        Bitmap bitmap = map.get(post.getimageResourceUrl());
+        if (bitmap != null) {
+            viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
+            viewHolder.progressBar.setVisibility(ProgressBar.GONE);
+        } else {
+            URL[] urlArray = new URL[1];
+            try {
+                urlArray[0] = new URL(post.getimageResourceUrl());
+            } catch (MalformedURLException e) {
+                viewHolder.progressBar.setVisibility(ProgressBar.GONE);
+                viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
+                map.put(post.getimageResourceUrl(),
+                        BitmapFactory.decodeResource(getContext().getResources(), R.mipmap.ic_launcher));
+                urlArray[0] = null;
+//                Toast.makeText(getContext(), "catch "+position, Toast.LENGTH_LONG).show();
+                Log.v("PostAdapter", "Catch - Position:" +position);
+                e.printStackTrace();
+            }
+            if (!viewHolder.isDownloading && urlArray[0]!= null) {
+                viewHolder.isDownloading = true;
+                Log.v("PostAdapter", "IsDownload - Position:" +position);
+                new DownloadImageAsyncTask() {
+                    @Override
+                    protected void onPostExecute(Bitmap bitmap) {
+                        super.onPostExecute(bitmap);
+                        if (position == viewHolder.position) {
+                            if (bitmap != null) {
+                                viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
+                                map.put(post.getimageResourceUrl(), bitmap);
+                            } else {
+                                viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
+                                map.put(post.getimageResourceUrl(),
+                                        BitmapFactory.decodeResource(getContext().getResources(), R.mipmap.ic_launcher));
+                            }
+                        } else {
+//                            Toast.makeText(getContext(), "recilcada "+position, Toast.LENGTH_LONG).show();
+                            Log.v("PostAdapter", "vista ya reciclada - Position:" +position);
+                            viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
+                        }
+                        viewHolder.progressBar.setVisibility(ProgressBar.GONE);
+                        viewHolder.isDownloading = false;
+
+                    }
+
+                }.execute(urlArray);
+            }
+
         }
 
-        URL[] urlArray = new URL[1];
-        urlArray[0] = myUrl;
 
-        new DownloadImageAsyncTask() {
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                super.onPostExecute(bitmap);
-                viewHolder.progressBar.setVisibility(ProgressBar.GONE);
-                if(bitmap != null){
-                    viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
-                }
-                else{
-                    viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
-                }
-            }
-        }.execute(urlArray);
-        viewHolder.authorTv.setText(pm.getAuthor());
-        viewHolder.titleTv.setText(pm.getTitle());
-        viewHolder.commentTv.setText(String.valueOf(pm.getComment()));
-        viewHolder.dateTv.setText(pm.getDate());
+        viewHolder.authorTv.setText(post.getAuthor());
+        viewHolder.titleTv.setText(post.getTitle());
+        viewHolder.commentTv.setText(String.valueOf(post.getComment()));
+        viewHolder.dateTv.setText(post.getDate());
+
+
 
         return convertView;
     }
