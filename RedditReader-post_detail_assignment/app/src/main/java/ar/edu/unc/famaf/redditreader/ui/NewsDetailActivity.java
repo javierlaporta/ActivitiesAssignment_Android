@@ -30,12 +30,15 @@ public class NewsDetailActivity extends AppCompatActivity {
         String date = post.getDate();
         String thumbnail = post.getimageResourceUrl();
         final String linkWeb = post.getLinkWeb();
+        String preview = post.getPreview();
 
         TextView textViewSubreddit = (TextView) findViewById(R.id.postDetailSubreddit);
         TextView textViewTitle =(TextView) findViewById(R.id.postDetailTitle);
         TextView textViewAuthor = (TextView) findViewById(R.id.postDetailAuthor);
         TextView textViewDate = (TextView) findViewById(R.id.postDetailDate);
 //        TextView textViewLinkWeb = (TextView) findViewById(R.id.postDetailLink);
+        TextView textViewPreview = (TextView) findViewById(R.id.PROBANDO);
+
         Bitmap bitmap = new ThumbnailHelper(this).getImage(thumbnail);
         if (bitmap != null){
             ImageView imageView = (ImageView) findViewById(R.id.postDetailThumnail);
@@ -47,6 +50,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         textViewAuthor.setText(author+"  •  ");
         textViewDate.setText(date);
 //        textViewLinkWeb.setText(linkWeb);
+        textViewPreview.setText(preview);
 
 //        if(linkWeb != null) { ESTE IF DEBERIA IR? PARA NO LANZAR LA ACTIVIDAD SI ES NULL?
             textViewTitle.setOnClickListener(new View.OnClickListener() {

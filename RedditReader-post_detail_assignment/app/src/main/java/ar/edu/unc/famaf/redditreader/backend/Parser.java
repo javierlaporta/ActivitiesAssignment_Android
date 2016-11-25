@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import android.util.JsonToken;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,6 @@ import java.text.SimpleDateFormat;
  * Created by javier on 20/10/16.
  */
 public class Parser {
-
     public Listing readJsonStream(InputStream in) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
 
@@ -33,8 +34,8 @@ public class Parser {
     //leyendo el primer json object
     public Listing readDataObject(JsonReader reader) throws IOException{
         Listing listing = new Listing();
-
         reader.beginObject();
+
         while (reader.hasNext()) {
             String name = reader.nextName();
             if(name.equals("data")) {
@@ -52,7 +53,6 @@ public class Parser {
         String before = null;
         List<PostModel> children = new ArrayList<>();
         Listing listing2 = new Listing();
-
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
@@ -104,6 +104,7 @@ public class Parser {
         String num_comments = null;
         String thumbnail = null;
         String linkWeb = null;
+        String preview = null;
         Long millis;
         String created = null;
 
@@ -111,7 +112,12 @@ public class Parser {
             String name = reader.nextName();
             JsonToken check = reader.peek();
 
-            if (name.equals("title") && check != JsonToken.NULL) {
+            if(name.equals("preview") && check != JsonToken.NULL){
+                reader.beginObject();
+                preview = readPreview(reader);
+                reader.endObject();
+            }
+            else if(name.equals("title") && check != JsonToken.NULL) {
                 title = reader.nextString();
             }else if(name.equals("subreddit") && check != JsonToken.NULL){
                 subreddit = reader.nextString();
@@ -141,7 +147,37 @@ public class Parser {
         postModelT3.setimageResourceUrl(thumbnail);
         postModelT3.setDate(created);
         postModelT3.setLinkWeb(linkWeb);
+        postModelT3.setPreview(preview);
         return  postModelT3;
+    }
+
+    public  String readPreview (JsonReader reader) throws  IOException{
+        String preview = "readPreview";
+        String name = reader.nextName();
+        if(name.equals("images")){
+            reader.beginArray();
+            reader.beginObject();
+            while (reader.hasNext()) {
+                name = reader.nextName();
+                if(name.equals("source")){
+                    reader.beginObject();
+                    while (reader.hasNext()) {
+                        name = reader.nextName();
+                        if(name.equals("url")){
+                            preview = reader.nextString();
+                        }else{
+                            reader.skipValue();
+                        }
+                    }
+                    reader.endObject();
+                }else{
+                    reader.skipValue();
+                }
+            }
+            reader.endObject();
+            reader.endArray();
+        }
+        return  preview;
     }
 }
 

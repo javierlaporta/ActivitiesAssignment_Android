@@ -10,6 +10,7 @@ public class PostModel implements Serializable {
     private String imageResourceUrl;
     private String subreddit;
     private String linkWeb;
+    private String preview;
 
     public void setimageResourceUrl(String imageResourceUrl){
         this.imageResourceUrl = imageResourceUrl;
@@ -43,6 +44,10 @@ public class PostModel implements Serializable {
         this.linkWeb = linkWeb;
     }
 
+    public void setPreview(String preview) {
+        this.preview = preview;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -65,5 +70,9 @@ public class PostModel implements Serializable {
 
     public String getLinkWeb() {
         return linkWeb;
+    }
+
+    public String getPreview() {
+        return preview;
     }
 }
