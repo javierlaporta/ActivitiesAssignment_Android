@@ -33,11 +33,13 @@ public class Backend {
         String[] authorArray = {"/r/Android","/r/DevAndriod","/r/JoshuaTheFox","/r/ios","/r/GBA4iOS"};
         String[] dateArray = {"Hace 14 hs","Hace 12 hs","Hace 15 hs","Hace 11 hs","Hace 10 hs"};
         Integer[] commentArray = {294,352,152,134,234};
-        String [] urlArray = {"https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2000px-Google_%22G%22_Logo.svg.png",
+        String [] urlArray = {
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2000px-Google_%22G%22_Logo.svg.png",
         "https://pbs.twimg.com/profile_images/616076655547682816/6gMRtQyY.jpg",
         "https://www.facebook.com/images/fb_icon_325x325.png",
         "http://juegosparacelular.net/wp-content/uploads/2015/12/Juegos-para-IOS.png",
-        "http://vignette4.wikia.nocookie.net/es.pokemon/images/1/15/Game_Boy_Advance.png"};
+        "http://vignette4.wikia.nocookie.net/es.pokemon/images/1/15/Game_Boy_Advance.png"
+        };
 
 
         List<PostModel> postLst = new ArrayList<PostModel>();
@@ -52,5 +54,3 @@ public class Backend {
         return postLst;
     }
 }
-
-//https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2000px-Google_%22G%22_Logo.svg.png

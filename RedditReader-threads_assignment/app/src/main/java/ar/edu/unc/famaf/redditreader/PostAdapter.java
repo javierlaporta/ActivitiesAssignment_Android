@@ -3,10 +3,6 @@ package ar.edu.unc.famaf.redditreader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.provider.ContactsContract;
-import android.provider.Settings;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -24,14 +19,12 @@ import java.util.HashMap;
 import java.util.List;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 /**
  * Created by javier on 07/10/16.
  */
 public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> postLst = null;
-    boolean malformed = false;
     private HashMap<String, Bitmap> map = new HashMap<>();
 
     public class ViewHolder {
@@ -43,7 +36,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         public final ProgressBar progressBar;
         public int position;
         boolean isDownloading;
-
 
         public ViewHolder(ImageView imageResourceUrlIv, TextView authorTv, TextView titleTv,
                           TextView commentTv, TextView dateTv, ProgressBar progressBar, int position){
@@ -74,7 +66,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             }
             return bitmap;
         }
-
     }
 
     public PostAdapter(Context context, int textViewResourceId, List<PostModel> postLst) {
@@ -117,7 +108,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         }
 
         viewHolder.progressBar.setVisibility(ProgressBar.VISIBLE);
-
         final PostModel post = postLst.get(position);
         Bitmap bitmap = map.get(post.getimageResourceUrl());
         if (bitmap != null) {
@@ -133,13 +123,10 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                 map.put(post.getimageResourceUrl(),
                         BitmapFactory.decodeResource(getContext().getResources(), R.mipmap.ic_launcher));
                 urlArray[0] = null;
-//                Toast.makeText(getContext(), "catch "+position, Toast.LENGTH_LONG).show();
-                Log.v("PostAdapter", "Catch - Position:" +position);
                 e.printStackTrace();
             }
             if (!viewHolder.isDownloading && urlArray[0]!= null) {
                 viewHolder.isDownloading = true;
-                Log.v("PostAdapter", "IsDownload - Position:" +position);
                 new DownloadImageAsyncTask() {
                     @Override
                     protected void onPostExecute(Bitmap bitmap) {
@@ -151,31 +138,23 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                             } else {
                                 viewHolder.imageResourceUrlIv.setImageResource(R.mipmap.ic_launcher);
                                 map.put(post.getimageResourceUrl(),
-                                        BitmapFactory.decodeResource(getContext().getResources(), R.mipmap.ic_launcher));
+                                        BitmapFactory.decodeResource(getContext().
+                                                getResources(), R.mipmap.ic_launcher));
                             }
                         } else {
-//                            Toast.makeText(getContext(), "recilcada "+position, Toast.LENGTH_LONG).show();
-                            Log.v("PostAdapter", "vista ya reciclada - Position:" +position);
                             viewHolder.imageResourceUrlIv.setImageBitmap(bitmap);
                         }
                         viewHolder.progressBar.setVisibility(ProgressBar.GONE);
                         viewHolder.isDownloading = false;
-
                     }
-
                 }.execute(urlArray);
             }
 
         }
-
-
         viewHolder.authorTv.setText(post.getAuthor());
         viewHolder.titleTv.setText(post.getTitle());
         viewHolder.commentTv.setText(String.valueOf(post.getComment()));
         viewHolder.dateTv.setText(post.getDate());
-
-
-
         return convertView;
     }
 }
