@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 
 public class NewsActivity extends AppCompatActivity implements OnPostItemSelectedListener {
+
     public final static String POST_MODEL = "ar.edu.unc.famaf.redditreader.TITLE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {

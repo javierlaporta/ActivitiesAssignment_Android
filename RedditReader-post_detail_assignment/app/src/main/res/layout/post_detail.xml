@@ -8,6 +8,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/postDetailProgressBar"
+        android:layout_below="@+id/postDetailAuthor"
+        android:layout_marginTop="7dp"
+        android:indeterminate="false"
+        android:layout_centerHorizontal="true"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,12 +49,15 @@
         android:layout_toEndOf="@+id/postDetailAuthor"
         android:textSize="14sp"/>
 
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/postDetailPreview"
         android:layout_below="@+id/postDetailAuthor"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="7dp"/>
+
 
     <!--<TextView-->
         <!--android:layout_width="wrap_content"-->

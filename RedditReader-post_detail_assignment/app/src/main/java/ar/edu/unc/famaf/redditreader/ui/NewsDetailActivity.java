@@ -2,24 +2,19 @@ package ar.edu.unc.famaf.redditreader.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-
 import javax.microedition.khronos.opengles.GL10;
-
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.DownloadImageAsyncTask;
-import ar.edu.unc.famaf.redditreader.backend.ThumbnailHelper;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 ///**
@@ -28,8 +23,9 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 public class NewsDetailActivity extends AppCompatActivity {
     public final static String POST_MODEL = "ar.edu.unc.famaf.redditreader.TITLE";
     public final static String LINK_WEB = "ar.edu.unc.famaf.redditreader.LINK";
-    private HashMap<String, Bitmap> cache = new HashMap<>();
+    public HashMap<String, Bitmap> cache = new HashMap<>();
     boolean isDownloading;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +53,6 @@ public class NewsDetailActivity extends AppCompatActivity {
         textViewAuthor.setText(author+"  •  ");
         textViewDate.setText(date);
         setPreview(post);
-
 //        textViewLinkWeb.setText(linkWeb);
 //        textViewPreview.setText(preview);
 
@@ -75,6 +70,8 @@ public class NewsDetailActivity extends AppCompatActivity {
     }
 
     public void setPreview (final PostModel post){
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.postDetailProgressBar);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         Bitmap bitmap = cache.get(post.getPreview());
         final ImageView imageView = (ImageView) findViewById(R.id.postDetailPreview);
 
@@ -84,6 +81,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 urlArray[0] = new URL(post.getPreview());
             } catch (MalformedURLException e) {
                 urlArray[0] = null;
+                progressBar.setVisibility(ProgressBar.GONE);
                 e.printStackTrace();
             }
             if (!isDownloading && urlArray[0]!= null) {
@@ -93,23 +91,28 @@ public class NewsDetailActivity extends AppCompatActivity {
                     protected void onPostExecute(Bitmap bitmap) {
                         super.onPostExecute(bitmap);
                         if (bitmap != null && bitmap.getHeight() < GL10.GL_MAX_TEXTURE_SIZE) {
+                            cache.put(post.getPreview(), bitmap);
                             imageView.setImageBitmap(bitmap);
-                            cache.put(post.getimageResourceUrl(), bitmap);
+
                         }else if (bitmap != null  && bitmap.getHeight() > GL10.GL_MAX_TEXTURE_SIZE){
                             float aspect_ratio = ((float)bitmap.getHeight())/((float)bitmap.getWidth());
 //                            Log.v("ASPECT" , Float.toString(aspect_ratio));
                             Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap,
                                     (int) ((bitmap.getWidth()*0.5)*aspect_ratio) ,
                                     (int) ((bitmap.getHeight()*0.5)*aspect_ratio), false);
+                            cache.put(post.getPreview(), newBitmap);
                             imageView.setImageBitmap(newBitmap);
-                            cache.put(post.getimageResourceUrl(), newBitmap);
+
                         }
                         isDownloading = false;
+                        progressBar.setVisibility(ProgressBar.GONE);
+
                     }
                 }.execute(urlArray);
             }
         }else{
             imageView.setImageBitmap(bitmap);
+            progressBar.setVisibility(ProgressBar.GONE);
         }
     }
 }
