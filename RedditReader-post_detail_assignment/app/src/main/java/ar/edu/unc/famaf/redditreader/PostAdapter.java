@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import ar.edu.unc.famaf.redditreader.backend.DownloadImageAsyncTask;
 import ar.edu.unc.famaf.redditreader.backend.ThumbnailHelper;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 import android.os.AsyncTask;
@@ -42,23 +43,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             this.commentTv = commentTv;
             this.dateTv = dateTv;
             this.progressBar = progressBar;
-        }
-    }
-
-    private class DownloadImageAsyncTask extends AsyncTask<URL, Integer, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(URL... params) {
-            URL url =params[0];
-            Bitmap bitmap = null;
-            HttpURLConnection connection = null;
-            try{
-                connection = (HttpURLConnection)url.openConnection();
-                InputStream is = connection.getInputStream();
-                bitmap =BitmapFactory.decodeStream(is,null,null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
         }
     }
 
