@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import ar.edu.unc.famaf.redditreader.backend.Backend;
@@ -17,10 +18,12 @@ public class LinkWebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WebView webview = new WebView(this);
-//        webview.getSettings().setBuiltInZoomControls(true);
         setContentView(webview);
         Intent intent = getIntent();
         String url = intent.getExtras().getString(LINK_WEB);
+        webview.getSettings().setJavaScriptEnabled(true); // to enable JavaScript execution
+        webview.setWebViewClient(new WebViewClient()); // to navegate inside the webview
+//        webview.getSettings().setBuiltInZoomControls(true);
         if(Backend.getInstance().isConnected(this)){
             try {
                 webview.loadUrl(url);
