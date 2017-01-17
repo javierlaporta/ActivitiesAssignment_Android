@@ -3,6 +3,7 @@ package ar.edu.unc.famaf.redditreader.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import ar.edu.unc.famaf.redditreader.R;
  */
 public class LoginActivity extends AppCompatActivity  {
 
+    public final static String EMAIL_TEXT = "com.example.javier.ActivitiesAssigment_Android.EMAIL";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -70,6 +72,15 @@ public class LoginActivity extends AppCompatActivity  {
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    @Override
+    /** Sobreescribo el metodo para cortar*/
+    public void finish() {
+        Intent intentToNewsActivity = new Intent();
+        String text_email = mEmailView.getText().toString();
+        intentToNewsActivity.putExtra(EMAIL_TEXT,text_email);
+        setResult(RESULT_OK, intentToNewsActivity);
+        super.finish();
+    }
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the

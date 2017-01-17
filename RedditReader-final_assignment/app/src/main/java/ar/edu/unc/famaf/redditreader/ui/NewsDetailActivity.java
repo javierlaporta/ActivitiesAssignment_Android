@@ -39,22 +39,17 @@ public class NewsDetailActivity extends AppCompatActivity {
         String author = post.getAuthor();
         String date = post.getDate();
         final String linkWeb = post.getLinkWeb();
-//        String preview = post.getPreview();
 
         TextView textViewSubreddit = (TextView) findViewById(R.id.postDetailSubreddit);
         TextView textViewTitle =(TextView) findViewById(R.id.postDetailTitle);
         TextView textViewAuthor = (TextView) findViewById(R.id.postDetailAuthor);
         TextView textViewDate = (TextView) findViewById(R.id.postDetailDate);
-//        TextView textViewLinkWeb = (TextView) findViewById(R.id.postDetailLink);
-//        TextView textViewPreview = (TextView) findViewById(R.id.PROBANDO);
 
         textViewSubreddit.setText("/r/"+subreddit);
         textViewTitle.setText(title);
         textViewAuthor.setText(author+"  •  ");
         textViewDate.setText(date);
         setPreview(post);
-//        textViewLinkWeb.setText(linkWeb);
-//        textViewPreview.setText(preview);
 
 //        if(linkWeb != null) { ESTE IF DEBERIA IR? PARA NO LANZAR LA ACTIVIDAD SI ES NULL?
             textViewTitle.setOnClickListener(new View.OnClickListener() {
