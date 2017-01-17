@@ -24,6 +24,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
  */
 public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
 
+    private static final String ARG_SECTION_NUMBER = "section_number";
     private View v;
     ListView lvItems = null;
     List<PostModel> postsList = new ArrayList<>();
@@ -33,6 +34,13 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     public NewsActivityFragment() {
     }
 
+    public static NewsActivityFragment newInstance(int sectionNumber) {
+        NewsActivityFragment fragment = new NewsActivityFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
 //Ojo onAttach is deprecated. PREGUNTAR COMO HACER PARA NO USAR ESTO! Android Developer lo usa
     @Override
     public void onAttach(Activity activity) {
