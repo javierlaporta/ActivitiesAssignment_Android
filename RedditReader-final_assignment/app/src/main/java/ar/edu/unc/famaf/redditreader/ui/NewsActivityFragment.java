@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
 import ar.edu.unc.famaf.redditreader.backend.EndlessScrollListener;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
+import ar.edu.unc.famaf.redditreader.ui.NewsActivity.SectionsPagerAdapter;
 
 
 /**
@@ -30,6 +32,8 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     List<PostModel> postsList = new ArrayList<>();
     PostAdapter adapter;
     OnPostItemSelectedListener postSelected;
+    int mPosition;
+    String mSubreddit;
 
     public NewsActivityFragment() {
     }
@@ -49,36 +53,70 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     }
 
     @Override
+    /**
+     *Con esto puedo usat mSubreddit para cambiar la descarga de hot, top, new mas adelante
+     **/
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        try {
+            mPosition = getArguments().getInt(ARG_SECTION_NUMBER);
+        }catch (Exception e){
+            mPosition = -1;
+        }
+        switch (mPosition) {
+            case 0:
+                mSubreddit = "hot";
+                break;
+            case 1:
+                mSubreddit = "new";
+                break;
+            case 2:
+                mSubreddit = "top";
+                break;
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_news, container, false);
         lvItems = (ListView) v.findViewById(R.id.postLV);
         adapter = new PostAdapter(getContext(), R.layout.porst_row, postsList);
         lvItems.setAdapter(adapter);
-
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PostModel post = (PostModel) lvItems.getItemAtPosition(position);
-                postSelected.onPostItemPicked(post);
-            }
-        });
-
-        if(!Backend.getInstance().isConnected(getContext())){
-            showToast(getContext());
+        try {
+            mPosition = getArguments().getInt(ARG_SECTION_NUMBER);
+        }catch (Exception e){
+            mPosition = -1;
         }
-        if(Backend.getInstance().isConnected(getContext()) ||
-                !Backend.getInstance().isEmpty(getContext())){
-            //si hay conexion => va a persistir
-            //si no hay conexion pero hay datos en la bd => leer de alli
-            Backend.getInstance().getNextPosts(this,getContext(),true);
-            lvItems.setOnScrollListener(new EndlessScrollListener() {
+        if (mPosition == 0) {
+            lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public boolean onLoadMore(int page, int totalItemsCount) {
-                    Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext(),false);
-                    return true; // ONLY if more data is actually being loaded; false otherwise.
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    PostModel post = (PostModel) lvItems.getItemAtPosition(position);
+                    postSelected.onPostItemPicked(post);
                 }
             });
+
+            if (!Backend.getInstance().isConnected(getContext())) {
+                showToast(getContext());
+            }
+            if (Backend.getInstance().isConnected(getContext()) ||
+                    !Backend.getInstance().isEmpty(getContext())) {
+                //si hay conexion => va a persistir
+                //si no hay conexion pero hay datos en la bd => leer de alli
+                Backend.getInstance().getNextPosts(this, getContext(), true);
+                lvItems.setOnScrollListener(new EndlessScrollListener() {
+                    @Override
+                    public boolean onLoadMore(int page, int totalItemsCount) {
+                        Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext(), false);
+                        return true; // ONLY if more data is actually being loaded; false otherwise.
+                    }
+                });
+            }
+        }else if (mPosition == 1 || mPosition == 2){
+            TextView textView = (TextView) v.findViewById(R.id.prueba);
+
+            textView.setText("Estoy en el tab " + mSubreddit);
         }
         return v;
     }
