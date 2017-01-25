@@ -27,11 +27,14 @@ public class Backend {
     private Backend() {
     }
 
-    public void getNextPosts(final PostsIteratorListener listener, final Context context, Boolean write) {
+    public void getNextPosts(final PostsIteratorListener listener, final Context context,
+                             Boolean write, String subreddit) {
 
         final RedditDBHelper db = new RedditDBHelper(context);
 
         if (isConnected(context) && write){
+            String[] subredditArray = new String[1];
+            subredditArray[0] = subreddit;
             new GetTopPostsTask() {
                 @Override
                 protected void onPostExecute(final List<PostModel> postModels) {
@@ -48,7 +51,7 @@ public class Backend {
                         }
                     }.execute(objectArray);
                 }
-            }.execute();
+            }.execute(subredditArray);
             from = 0;
 
         }else{

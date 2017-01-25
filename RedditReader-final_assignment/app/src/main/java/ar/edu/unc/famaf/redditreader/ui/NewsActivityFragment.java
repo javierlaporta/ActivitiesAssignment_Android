@@ -54,7 +54,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
 
     @Override
     /**
-     *Con esto puedo usat mSubreddit para cambiar la descarga de hot, top, new mas adelante
+     *Con esto puedo usar mSubreddit para cambiar la descarga de hot, top, new mas adelante
      **/
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,18 +104,18 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
                     !Backend.getInstance().isEmpty(getContext())) {
                 //si hay conexion => va a persistir
                 //si no hay conexion pero hay datos en la bd => leer de alli
-                Backend.getInstance().getNextPosts(this, getContext(), true);
+                Backend.getInstance().getNextPosts(this, getContext(), true, mSubreddit);
                 lvItems.setOnScrollListener(new EndlessScrollListener() {
                     @Override
                     public boolean onLoadMore(int page, int totalItemsCount) {
-                        Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext(), false);
+                        Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext(),
+                                false, mSubreddit);
                         return true; // ONLY if more data is actually being loaded; false otherwise.
                     }
                 });
             }
         }else if (mPosition == 1 || mPosition == 2){
             TextView textView = (TextView) v.findViewById(R.id.prueba);
-
             textView.setText("Estoy en el tab " + mSubreddit);
         }
         return v;

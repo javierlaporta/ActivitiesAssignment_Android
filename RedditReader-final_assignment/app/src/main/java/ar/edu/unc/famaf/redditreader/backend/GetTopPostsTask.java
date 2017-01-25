@@ -13,14 +13,14 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 /**
  * Created by javier on 20/10/16.
  */
-public class GetTopPostsTask extends AsyncTask<Void, Void, List<PostModel>> {
+public class GetTopPostsTask extends AsyncTask<String, Void, List<PostModel>> {
 
     @Override
-    protected List<PostModel> doInBackground(Void...params) {
+    protected List<PostModel> doInBackground(String...params) {
         InputStream input;
         try {
             HttpURLConnection conn = (HttpURLConnection) new URL
-                    ("https://www.reddit.com/top.json?limit=50").openConnection();
+                    ("https://www.reddit.com/" + params[0] +".json?limit=50").openConnection();
             conn.setRequestMethod("GET");
             input = conn.getInputStream();
             Parser parser = new Parser();
