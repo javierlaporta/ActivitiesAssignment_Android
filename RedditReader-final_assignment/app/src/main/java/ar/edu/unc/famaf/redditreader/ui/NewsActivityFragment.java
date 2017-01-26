@@ -33,7 +33,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     PostAdapter adapter;
     OnPostItemSelectedListener postSelected;
     int mPosition;
-    String mSubreddit;
+    String mTabReddit;
 
     public NewsActivityFragment() {
     }
@@ -54,7 +54,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
 
     @Override
     /**
-     *Con esto puedo usar mSubreddit para cambiar la descarga de hot, top, new mas adelante
+     *Con esto puedo usar mTabReddit para cambiar la descarga de hot, top, new mas adelante
      **/
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,13 +65,13 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         }
         switch (mPosition) {
             case 0:
-                mSubreddit = "hot";
+                mTabReddit = "hot";
                 break;
             case 1:
-                mSubreddit = "new";
+                mTabReddit = "new";
                 break;
             case 2:
-                mSubreddit = "top";
+                mTabReddit = "top";
                 break;
         }
     }
@@ -88,7 +88,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         }catch (Exception e){
             mPosition = -1;
         }
-        if (mPosition == 0) {
+        if (mPosition != -1) {
             lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -104,20 +104,21 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
                     !Backend.getInstance().isEmpty(getContext())) {
                 //si hay conexion => va a persistir
                 //si no hay conexion pero hay datos en la bd => leer de alli
-                Backend.getInstance().getNextPosts(this, getContext(), true, mSubreddit);
+                Backend.getInstance().getNextPosts(this, getContext(), true, mTabReddit);
                 lvItems.setOnScrollListener(new EndlessScrollListener() {
                     @Override
                     public boolean onLoadMore(int page, int totalItemsCount) {
                         Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext(),
-                                false, mSubreddit);
+                                false, mTabReddit);
                         return true; // ONLY if more data is actually being loaded; false otherwise.
                     }
                 });
             }
-        }else if (mPosition == 1 || mPosition == 2){
-            TextView textView = (TextView) v.findViewById(R.id.prueba);
-            textView.setText("Estoy en el tab " + mSubreddit);
         }
+//        else if (mPosition == 1 || mPosition == 2){
+//            TextView textView = (TextView) v.findViewById(R.id.prueba);
+//            textView.setText("Estoy en el tab " + mTabReddit);
+//        }
         return v;
     }
 

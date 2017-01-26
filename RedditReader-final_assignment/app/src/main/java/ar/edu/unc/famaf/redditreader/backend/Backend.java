@@ -28,34 +28,35 @@ public class Backend {
     }
 
     public void getNextPosts(final PostsIteratorListener listener, final Context context,
-                             Boolean write, String subreddit) {
+                             Boolean write, final String tabReddit) {
 
         final RedditDBHelper db = new RedditDBHelper(context);
+        String[] tabRedditArray = new String[1];
+        tabRedditArray[0] = tabReddit;
 
         if (isConnected(context) && write){
-            String[] subredditArray = new String[1];
-            subredditArray[0] = subreddit;
             new GetTopPostsTask() {
                 @Override
                 protected void onPostExecute(final List<PostModel> postModels) {
                     super.onPostExecute(postModels);
-                    Object[] objectArray = new Object[2];
+                    Object[] objectArray = new Object[3];
                     objectArray[0]= postModels;
                     objectArray[1]= db;
+                    objectArray[2]= tabReddit;
                     new WriteDatabaseTask(){
                         @Override
                         protected void onPostExecute(Void aVoid) {
                             super.onPostExecute(aVoid);
-                            readPost(listener,context,from,UMBRAL);
+                            readPost(listener,context,from,UMBRAL,tabReddit);
                             from+=UMBRAL;
                         }
                     }.execute(objectArray);
                 }
-            }.execute(subredditArray);
+            }.execute(tabRedditArray);
             from = 0;
 
         }else{
-            readPost(listener,context,from,UMBRAL);
+            readPost(listener,context,from,UMBRAL,tabReddit);
             from +=UMBRAL;
         }
     }
@@ -80,12 +81,14 @@ public class Backend {
         return (! cursor.moveToFirst());
     }
 
-    private void readPost (PostsIteratorListener listener, Context context, int from, int UMBRAL){
+    private void readPost (PostsIteratorListener listener, Context context, int from, int UMBRAL,
+                           String tabReddit){
         RedditDBHelper db = new RedditDBHelper(context);
         List<PostModel> postModelList = new ArrayList<>();
         SQLiteDatabase readableDatabase = db.getReadableDatabase();
+        String whereClause = " WHERE " + RedditDBHelper.POST_TABLE_TABREDDIT + " = " + "'" + tabReddit + "'";
         Cursor cursor = readableDatabase.rawQuery("SELECT * FROM " + RedditDBHelper.POST_TABLE +
-                " LIMIT " + Integer.toString(from) +"," + Integer.toString(UMBRAL) , null);
+                whereClause + " LIMIT " + Integer.toString(from) +"," + Integer.toString(UMBRAL) , null);
 
         if (cursor.moveToFirst()) {
             do {

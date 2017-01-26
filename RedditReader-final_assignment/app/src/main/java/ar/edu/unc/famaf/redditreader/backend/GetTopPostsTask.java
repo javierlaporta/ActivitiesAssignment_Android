@@ -16,11 +16,11 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 public class GetTopPostsTask extends AsyncTask<String, Void, List<PostModel>> {
 
     @Override
-    protected List<PostModel> doInBackground(String...params) {
+    protected List<PostModel> doInBackground(String...subreddit) {
         InputStream input;
         try {
             HttpURLConnection conn = (HttpURLConnection) new URL
-                    ("https://www.reddit.com/" + params[0] +".json?limit=50").openConnection();
+                    ("https://www.reddit.com/" + subreddit[0] +".json?limit=50").openConnection();
             conn.setRequestMethod("GET");
             input = conn.getInputStream();
             Parser parser = new Parser();

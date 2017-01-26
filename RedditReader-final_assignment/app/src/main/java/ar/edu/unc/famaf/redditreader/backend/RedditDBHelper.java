@@ -21,6 +21,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     public static final String POST_TABLE_BITMAP = "bitmap";
     public static final String POST_TABLE_LINKWEB = "linkWeb";
     public static final String POST_TABLE_PREVIEW = "preview";
+    public static final String POST_TABLE_TABREDDIT = "tabReddit";
 
 
     public RedditDBHelper(Context context) {
@@ -39,7 +40,8 @@ public class RedditDBHelper extends SQLiteOpenHelper {
             +POST_TABLE_IMAGEURL+" text not null,"
             +POST_TABLE_LINKWEB+" text not null,"
             +POST_TABLE_PREVIEW+" text,"
-            + POST_TABLE_BITMAP + " blob"
+            + POST_TABLE_BITMAP + " blob,"
+            + POST_TABLE_TABREDDIT + " text not null"
             +" );";
             db.execSQL(createSentence);
 
