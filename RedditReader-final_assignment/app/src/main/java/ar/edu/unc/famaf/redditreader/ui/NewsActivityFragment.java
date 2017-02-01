@@ -97,28 +97,24 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
                 }
             });
 
-            if (!Backend.getInstance().isConnected(getContext())) {
+            if (!Backend.getInstance(mPosition).isConnected(getContext())) {
                 showToast(getContext());
             }
-            if (Backend.getInstance().isConnected(getContext()) ||
-                    !Backend.getInstance().isEmpty(getContext())) {
+            if (Backend.getInstance(mPosition).isConnected(getContext()) ||
+                    !Backend.getInstance(mPosition).isEmpty(getContext())) {
                 //si hay conexion => va a persistir
                 //si no hay conexion pero hay datos en la bd => leer de alli
-                Backend.getInstance().getNextPosts(this, getContext(), true, mTabReddit);
+                Backend.getInstance(mPosition).getNextPosts(this, getContext(), true, mTabReddit);
                 lvItems.setOnScrollListener(new EndlessScrollListener() {
                     @Override
                     public boolean onLoadMore(int page, int totalItemsCount) {
-                        Backend.getInstance().getNextPosts(NewsActivityFragment.this, getContext(),
+                        Backend.getInstance(mPosition).getNextPosts(NewsActivityFragment.this, getContext(),
                                 false, mTabReddit);
                         return true; // ONLY if more data is actually being loaded; false otherwise.
                     }
                 });
             }
         }
-//        else if (mPosition == 1 || mPosition == 2){
-//            TextView textView = (TextView) v.findViewById(R.id.prueba);
-//            textView.setText("Estoy en el tab " + mTabReddit);
-//        }
         return v;
     }
 

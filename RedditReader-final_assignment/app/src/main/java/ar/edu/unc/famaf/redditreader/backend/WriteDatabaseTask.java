@@ -18,7 +18,7 @@ public class WriteDatabaseTask extends AsyncTask<Object, Void, Void> {
         RedditDBHelper db = (RedditDBHelper) params[1];
         String tabReddit = (String) params[2];
         SQLiteDatabase writableDatabase = db.getWritableDatabase();
-//          borrar la base de datos vieja y pisarla con los 50 nuevos
+//          borrar los 50 post del tag y guardar los 50 nuevos
         String whereClause = RedditDBHelper.POST_TABLE_TABREDDIT + " = " + "'" + tabReddit + "'";
         writableDatabase.delete(RedditDBHelper.POST_TABLE, whereClause, null);
         for(int i=0; i< postList.size();i++){

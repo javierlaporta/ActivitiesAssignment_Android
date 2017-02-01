@@ -24,7 +24,7 @@ public class LinkWebActivity extends AppCompatActivity {
         webview.getSettings().setJavaScriptEnabled(true); // to enable JavaScript execution
         webview.setWebViewClient(new WebViewClient()); // to navegate inside the webview
 //        webview.getSettings().setBuiltInZoomControls(true);
-        if(Backend.getInstance().isConnected(this)){
+        if(Backend.getInstance(0).isConnected(this)){
             try {
                 webview.loadUrl(url);
             } catch (Exception e) {

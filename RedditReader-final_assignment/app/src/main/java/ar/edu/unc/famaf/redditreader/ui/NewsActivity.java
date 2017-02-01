@@ -20,6 +20,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 public class NewsActivity extends AppCompatActivity implements OnPostItemSelectedListener {
 
     static final int LOGIN_REQUEST = 1;
+    public final static int NUM_TABS = 3;
     public final static String EMAIL_TEXT = "com.example.javier.ActivitiesAssigment_Android.EMAIL";
     public final static String POST_MODEL = "ar.edu.unc.famaf.redditreader.TITLE";
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -99,7 +100,7 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return NUM_TABS;
         }
 
         @Override
