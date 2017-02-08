@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 public class NewsActivity extends AppCompatActivity implements OnPostItemSelectedListener {
 
+    private Menu menu;
     static final int LOGIN_REQUEST = 1;
     public final static int NUM_TABS = 3;
     public final static String EMAIL_TEXT = "com.example.javier.ActivitiesAssigment_Android.EMAIL";
@@ -45,7 +47,13 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_news, menu);
+        this.menu = menu;
         return true;
+    }
+
+    private void updateMenuTitles(String user) {
+        MenuItem mMenuItem = menu.findItem(R.id.action_sign_in);
+        mMenuItem .setTitle(user);
     }
 
     @Override
@@ -67,8 +75,14 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 String userEmailText = data.getExtras().getString(EMAIL_TEXT);
-                TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
-                textView.setText("User "+ userEmailText + " logged in");
+//                TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
+//                textView.setText("User "+ userEmailText + " logged in");
+                Log.v("USER: ", userEmailText);
+                if(!userEmailText.equals("")){
+//                    updateMenuTitles(userEmailText);
+                    userEmailText = userEmailText.substring(0, userEmailText.length()-1);
+                    updateMenuTitles(userEmailText);
+                }
             }
         }
     }
