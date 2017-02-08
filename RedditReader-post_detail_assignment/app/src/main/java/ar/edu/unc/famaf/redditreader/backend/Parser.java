@@ -154,28 +154,32 @@ public class Parser {
     public  String readPreview (JsonReader reader) throws  IOException{
         String preview = "readPreview";
         String name = reader.nextName();
-        if(name.equals("images")){
-            reader.beginArray();
-            reader.beginObject();
-            while (reader.hasNext()) {
-                name = reader.nextName();
-                if(name.equals("source")){
-                    reader.beginObject();
-                    while (reader.hasNext()) {
-                        name = reader.nextName();
-                        if(name.equals("url")){
-                            preview = reader.nextString();
-                        }else{
-                            reader.skipValue();
+        while (reader.hasNext()) {
+            if (name.equals("images")) {
+                reader.beginArray();
+                reader.beginObject();
+                while (reader.hasNext()) {
+                    name = reader.nextName();
+                    if (name.equals("source")) {
+                        reader.beginObject();
+                        while (reader.hasNext()) {
+                            name = reader.nextName();
+                            if (name.equals("url")) {
+                                preview = reader.nextString();
+                            } else {
+                                reader.skipValue();
+                            }
                         }
+                        reader.endObject();
+                    } else {
+                        reader.skipValue();
                     }
-                    reader.endObject();
-                }else{
-                    reader.skipValue();
                 }
+                reader.endObject();
+                reader.endArray();
+            }else{
+                reader.skipValue();
             }
-            reader.endObject();
-            reader.endArray();
         }
         return  preview;
     }

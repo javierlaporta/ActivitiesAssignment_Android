@@ -27,10 +27,18 @@ public class Backend {
     }
 
     public static BackendTab getInstance(int position) {
-        return mBackendTabInstances.get(position);
+        try {
+            return mBackendTabInstances.get(position);
+        }catch(Exception e){
+            mBackendTabInstances = new ArrayList<>();
+            for (int i = 0; i < NewsActivity.NUM_TABS; ++i) {
+                mBackendTabInstances.add(i, new BackendTab());
+            }
+            return mBackendTabInstances.get(position);
+        }
     }
 
-    public class BackendTab {
+    public static class BackendTab {
         private int from = 0;
         private int UMBRAL = 5;
 
@@ -40,7 +48,8 @@ public class Backend {
         public void getNextPosts(final PostsIteratorListener listener, final Context context,
                                  Boolean write, final String tabReddit) {
 
-            final RedditDBHelper db = new RedditDBHelper(context);
+//            final RedditDBHelper db = new RedditDBHelper(context);
+            final RedditDBHelper db = RedditDBHelper.getInstance(context);
             String[] tabRedditArray = new String[1];
             tabRedditArray[0] = tabReddit;
 
@@ -51,7 +60,8 @@ public class Backend {
                         super.onPostExecute(postModels);
                         Object[] objectArray = new Object[3];
                         objectArray[0] = postModels;
-                        objectArray[1] = db;
+//                        objectArray[1] = db;
+                        objectArray[1] = context;
                         objectArray[2] = tabReddit;
                         new WriteDatabaseTask() {
                             @Override
@@ -83,7 +93,8 @@ public class Backend {
         }
 
         public boolean isEmpty(Context context) {//para saber si la base de datos esta vacia
-            RedditDBHelper db = new RedditDBHelper(context);
+//            RedditDBHelper db = new RedditDBHelper(context);
+            RedditDBHelper db = RedditDBHelper.getInstance(context);
             SQLiteDatabase readableDatabase = db.getReadableDatabase();
             Cursor cursor = readableDatabase.rawQuery(
                     " SELECT * FROM " + RedditDBHelper.POST_TABLE, null);
@@ -92,7 +103,8 @@ public class Backend {
 
         private void readPost(PostsIteratorListener listener, Context context, int from, int UMBRAL,
                               String tabReddit) {
-            RedditDBHelper db = new RedditDBHelper(context);
+//            RedditDBHelper db = new RedditDBHelper(context);
+            RedditDBHelper db = RedditDBHelper.getInstance(context);
             List<PostModel> postModelList = new ArrayList<>();
             SQLiteDatabase readableDatabase = db.getReadableDatabase();
             String whereClause = " WHERE " + RedditDBHelper.POST_TABLE_TABREDDIT + " = " + "'" + tabReddit + "'";

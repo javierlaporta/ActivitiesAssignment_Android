@@ -1,8 +1,10 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.List;
 
@@ -15,8 +17,10 @@ public class WriteDatabaseTask extends AsyncTask<Object, Void, Void> {
     @Override
     protected Void doInBackground(Object... params) {
         List<PostModel> postList = (List<PostModel>) params[0];
-        RedditDBHelper db = (RedditDBHelper) params[1];
+//        RedditDBHelper db = (RedditDBHelper) params[1];
+        Context context = (Context) params[1];
         String tabReddit = (String) params[2];
+        RedditDBHelper db = RedditDBHelper.getInstance(context);
         SQLiteDatabase writableDatabase = db.getWritableDatabase();
 //          borrar los 50 post del tag y guardar los 50 nuevos
         String whereClause = RedditDBHelper.POST_TABLE_TABREDDIT + " = " + "'" + tabReddit + "'";
@@ -32,6 +36,9 @@ public class WriteDatabaseTask extends AsyncTask<Object, Void, Void> {
             values.put(RedditDBHelper.POST_TABLE_IMAGEURL,postList.get(i).getimageResourceUrl());
             values.put(RedditDBHelper.POST_TABLE_PREVIEW, postList.get(i).getPreview());
             values.put(RedditDBHelper.POST_TABLE_TABREDDIT, tabReddit);
+            if (!writableDatabase.isOpen()){
+                writableDatabase = db.getWritableDatabase();
+            }
             writableDatabase.insert(RedditDBHelper.POST_TABLE, null, values);
         }
         return null;

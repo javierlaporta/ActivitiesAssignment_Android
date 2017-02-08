@@ -24,6 +24,21 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     public static final String POST_TABLE_TABREDDIT = "tabReddit";
 
 
+//    public RedditDBHelper(Context context) {
+//        super(context, DATABASE_NAME , null, DATABASE_VERSION);
+//    }
+    private static RedditDBHelper sInstance;
+
+    public static synchronized RedditDBHelper getInstance(Context context) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        if (sInstance == null) {
+            sInstance = new RedditDBHelper(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
     public RedditDBHelper(Context context) {
         super(context, DATABASE_NAME , null, DATABASE_VERSION);
     }

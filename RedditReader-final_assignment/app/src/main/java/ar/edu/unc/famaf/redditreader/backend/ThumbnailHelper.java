@@ -18,7 +18,8 @@ public class ThumbnailHelper {
     private SQLiteDatabase readbleDataBase;
 
     public ThumbnailHelper(Context context){
-        db = new RedditDBHelper(context);
+//        db = new RedditDBHelper(context);
+        db = RedditDBHelper.getInstance(context);
         writableDataBase = db.getWritableDatabase();
         readbleDataBase = db.getReadableDatabase();
     }
